@@ -1,0 +1,265 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: system-ui, sans-serif;
+  user-select: none;
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+  background: darkslategrey;
+  box-sizing: border-box;
+}
+.bullet {
+  z-index: 20;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.base {
+  z-index: 10;
+  display: flex;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.barak {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.bomb {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.buttonDiv {
+  z-index: 2;
+  position: relative;
+}
+.cave {
+  z-index: 10;
+  width: 70px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.canvas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.castle {
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  position: absolute;
+}
+
+.dead {
+  z-index: 20;
+  position: absolute;
+  transform: translate(-50%, calc(-100% + 5px));
+}
+
+.guard {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.guard > canvas {
+  transform: translate(-50%, calc(-100% + 5px));
+}
+.guard:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  background: red;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.gold {
+  z-index: 2;
+  position: absolute;
+  color: rgb(255, 217, 0);
+  font-size: large;
+  justify-content: center;
+  border: thick double rgba(37, 33, 6, 0.8);
+  border-radius: 5px;
+}
+
+.mob {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mob > canvas {
+  transform: translate(-50%, calc(-100% + 5px));
+}
+
+.map {
+  pointer-events: none;
+  position: absolute;
+}
+
+.hpBar {
+  position: absolute;
+  background: red;
+  transform: translate(-50%, calc(-100% + 5px));
+}
+
+.hpLost {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: forestgreen;
+  /* display: none; */
+}
+
+.tower {
+  z-index: 15;
+  position: absolute;
+  user-select: none;
+  transform: translate(-50%, -50%);
+}
+
+.radius {
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.point {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgb(0, 255, 200);
+}
+
+.snow {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  background-size: cover;
+}
+.fire {
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+  background-size: cover;
+}
+#myCanvas {
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.gameOverBG {
+  z-index: 40;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  inset: 10px;
+  background: rgb(5, 10, 10);
+}
+
+.nextLvLBG {
+  z-index: 40;
+  position: absolute;
+  border-radius: 15px;
+  inset: 10px;
+  background: rgb(44, 151, 151);
+}
+
+.loser {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-family: 'Gill Sans';
+  font-size: larger;
+  color: rgb(219, 176, 33);
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  width: 50%;
+  height: 50px;
+  top: 30%;
+  left: 50%;
+  background: rgb(111, 163, 163);
+}
+
+.restart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: larger;
+  text-align: center;
+  border-radius: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 120px;
+  background: mediumseagreen;
+}
+
+.continue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: larger;
+  border-radius: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 60px;
+  background: mediumseagreen;
+}
+
+@keyframes explosionAnimation {
+  0% {
+    transform: scale(0), translate(-50%, -50%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    transform: scale(1), translate(-50%, -50%);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1), translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+.explosion {
+  z-index: 12;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  animation: explosionAnimation 800ms linear;
+}
