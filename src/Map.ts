@@ -29,6 +29,7 @@ export class Map {
     this.audio.src = config.song
     this.audio.volume = 0.5;
     this.audio.loop = true;
+    // this.audio.muted = true
     this.audio.play();
 
     gameState.mapConfig = config;

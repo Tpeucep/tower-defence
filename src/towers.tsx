@@ -26,6 +26,26 @@ export class Tower {
     document.body.appendChild(this.towerElement);
     this.towerElement.appendChild(this.img);
     this.render();
+    this.towerElement.addEventListener('mouseover', this.onHover);
+    this.towerElement.addEventListener('mouseleave', this.onLeave)
+  }
+
+  onHover =()=>  {
+    this.handleHover()
+  }
+  handleHover(){  
+    console.log('onHover', this)
+    this.img.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
+  }
+
+  onLeave =()=> {
+    this.handleLeave()
+  }
+  
+  handleLeave(){
+    
+    console.log('onLeave', this)
+    this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
   }
 
   public update = () => {
@@ -38,7 +58,7 @@ export class Tower {
         const monster = gameState.monsters[i];
         const distance = Math.sqrt(
           Math.pow(monster.x - towerCenterX, 2) +
-            Math.pow(monster.y - towerCenterY, 2)
+          Math.pow(monster.y - towerCenterY, 2)
         );
         if (distance <= this.radius && !monster.isDead) {
           // console.log(Date.now() - this.lastShotAt);
@@ -84,6 +104,7 @@ export class FreezeTower extends Tower {
     this.render();
   }
   public update = () => {
+    
     const towerCenterX = this.x;
     const towerCenterY = this.y;
     const canShoot = Date.now() - this.lastShotAt > 400;
@@ -94,7 +115,7 @@ export class FreezeTower extends Tower {
         if (monster.freezePoint <= 3) {
           const distance = Math.sqrt(
             Math.pow(monster.x - towerCenterX, 2) +
-              Math.pow(monster.y - towerCenterY, 2)
+            Math.pow(monster.y - towerCenterY, 2)
           );
           // console.log('stop shoting');
 
@@ -130,6 +151,7 @@ export class BombTower extends Tower {
     this.img.src = 'https://i.ibb.co/5jm0fN9/Image-246-at-frame-1.png';
 
     this.audio = new Audio();
+    // this.audio.muted = true
     this.audio.src =
       'https://audio.buzzsprout.com/a09dv2jfild2q9szwny8ymo0b3g9?response-content-disposition=inline&';
 
@@ -145,7 +167,7 @@ export class BombTower extends Tower {
         const monster = gameState.monsters[i];
         const distance = Math.sqrt(
           Math.pow(monster.x - towerCenterX, 2) +
-            Math.pow(monster.y - towerCenterY, 2)
+          Math.pow(monster.y - towerCenterY, 2)
         );
         if (distance <= this.radius && !monster.isDead) {
           // console.log(Date.now() - this.lastShotAt);
@@ -310,7 +332,22 @@ export class BarakTower extends Tower {
     this.createGuardsAtPoint(coords);
     // console.log(coords);
   }
-  update = () => {}; // ----------НЕ----ТРОГАТЬ----------
+  update = () => { }; // ----------НЕ----ТРОГАТЬ----------
+
+
+  handleHover(){ 
+    // super.handleHover()
+    console.log('onHover1111')
+    this.img.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
+    this.guardList.forEach((g) => g.onHover())
+  }
+
+  handleLeave(){
+    // super.handleLeave()
+    console.log('onLeave111')
+    this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
+    this.guardList.forEach((g) => g.onLeave())
+  }
 
   closeMenu = () => {
     this.towerRadius.remove();

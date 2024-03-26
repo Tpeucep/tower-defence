@@ -17,6 +17,8 @@ export interface Ibase {
 
 export enum MobType {
   Goblin = 'Goblin',
+  Orc = 'Orc',
+  Wolf = 'Wolf',
 }
 
 export interface WaveSpawn {

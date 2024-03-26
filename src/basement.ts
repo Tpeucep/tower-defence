@@ -25,11 +25,12 @@ export class Basement {
     document.body.appendChild(this.basementEl);
   }
   onClick = () => {
+    if(!gameState.gameRunning) return;
     this.clicks++;
     if (this.clicks > 1) {
       return;
     }
-
+    
     this.freezeEl = document.createElement('img');
     this.freezeEl.className = 'snow';
     this.freezeEl.draggable = false;

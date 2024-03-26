@@ -25,30 +25,6 @@ interface AnimData {
   frameSeq: number[];
 }
 
-const moveRightImg = new Image();
-moveRightImg.src =
-  'https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMTNSQ3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--e576042a8b0ea8e0013d4b1c0f458080e8719343/spritesheet.png';
-
-const moveDownImg = new Image();
-moveDownImg.src = 'https://i.ibb.co/nn7cDQS/goblin-Move-Down.png';
-
-const moveUpImg = new Image();
-moveUpImg.src = 'https://i.ibb.co/XzJFhMQ/goblin-Move-Up.png';
-
-const fightImg = new Image();
-fightImg.src = 'https://i.ibb.co/KzMdqmQ/goblin-Attack.png';
-
-const dyingImg = new Image();
-dyingImg.src = 'https://i.ibb.co/Kb5KD4Z/goblin-Dying.png';
-
-const deadMob = new Image();
-
-const horizontalWalkSequence: number[] = [0, 1, 2, 3, 7, 1, 2, 3];
-const verticalWalkSequence: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
-const fightSequence = [0, 1, 2, 3, 4, 5, 6, 7];
-const idleSequence = [7];
-const dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3];
-
 export class Mob extends Movable {
   startX: number;
   startY: number;
@@ -82,6 +58,26 @@ export class Mob extends Movable {
   lastFrame = 0;
   drawInterval = 100;
 
+  moveRightImg = new Image();
+
+  moveDownImg = new Image();
+  
+  moveUpImg = new Image();
+
+  fightImg = new Image();
+
+  dyingImg = new Image();
+
+  deadMob = new Image();
+
+
+  horizontalWalkSequence: number[] = [0, 1, 2, 3, 7, 1, 2, 3];
+  verticalWalkSequence: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
+  fightSequence = [0, 1, 2, 3, 4, 5, 6, 7];
+  idleSequence = [7];
+  dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+
+
   direction = Direction.Down;
   state = State.Moving;
   constructor(point: Point[]) {
@@ -90,6 +86,19 @@ export class Mob extends Movable {
     this.startX = point[0].x;
     this.startY = point[0].y;
     this.points = point;
+
+    this.speed = 30
+    
+    this.moveRightImg.src =
+    'https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMTNSQ3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--e576042a8b0ea8e0013d4b1c0f458080e8719343/spritesheet.png';
+  
+    this.moveDownImg.src = 'https://i.ibb.co/nn7cDQS/goblin-Move-Down.png';
+
+    this.moveUpImg.src = 'https://i.ibb.co/XzJFhMQ/goblin-Move-Up.png';
+
+    this.fightImg.src = 'https://i.ibb.co/KzMdqmQ/goblin-Attack.png';
+
+    this.dyingImg.src = 'https://i.ibb.co/Kb5KD4Z/goblin-Dying.png';
 
     this.mobElement = document.createElement('div');
     this.mobElement.className = 'mob';
@@ -105,13 +114,13 @@ export class Mob extends Movable {
     this.mobElement.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
 
-    deadMob.src = 'https://i.ibb.co/3kXtKyV/Image-4429-at-frame-1.png';
-    deadMob.className = 'dead';
+    this.deadMob.src = 'https://i.ibb.co/3kXtKyV/Image-4429-at-frame-1.png';
+    this.deadMob.className = 'dead';
 
     this.audio = new Audio();
+    this.audio.muted = true
     this.audio.src =
-      'https://d1eav5o1141ef7.cloudfront.net/g3m1uj%2Ffile%2F9ed59e99febf590b57d7a13c1fa5eb8b_91d33e58296cbc5a8654821f96b7f89e.mp3?response-content-disposition=inline%3Bfilename%3D%229ed59e99febf590b57d7a13c1fa5eb8b_91d33e58296cbc5a8654821f96b7f89e.mp3%22%3B&response-content-type=audio%2Fmpeg&Expires=1710798685&Signature=XfdERDhyWixIE8WfjMg1fyIdkXpaIRim-9qf-hwqxDGCBDAJGIMON633KacYyGlB8nG6SCcqTqo4XwZgxVvlQMiBEbBHP5-dpyEMSDJUErOla9Tq7LUlr770~z9YSgiuX7ioqyQrjtRUakXqgGRnZUCTIeh5-H6MQixvb3UBhRt~pEJZjdvsbavNZ2HD5jgvKJKdVnKxrHB-ybOIfdXmhWX5C9nZaqAUXoYNwzdbzHHr9WDQRpxO44EZgrUDAsunjAUT~7VU26J-rl66kiyv1Ct1CRW7Ns4UE2wSEbNzADJLehFSe4hoChqmQi-pEtfX6-qFKxJcjaOWi1pZ7mPnuQ__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ';
-
+      'https://audio.buzzsprout.com/qlji81nzjf0doe8o212ow0g32i1u?response-content-disposition=inline&'
   }
 
   update(deltaTime: number) {
@@ -131,25 +140,25 @@ export class Mob extends Movable {
 
   getAnimationData(state: State, direction: Direction): AnimData {
     if (state === State.Fighting)
-      return { img: fightImg, frameSeq: fightSequence };
+      return { img: this.fightImg, frameSeq: this.fightSequence };
     if (state === State.Dying)
-      return { img: dyingImg, frameSeq: dyingSequence };
+      return { img: this.dyingImg, frameSeq: this.dyingSequence };
     if (state === State.Moving) {
       const img =
         this.direction === Direction.Up
-          ? moveUpImg
+          ? this.moveUpImg
           : this.direction === Direction.Down
-          ? moveDownImg
-          : moveRightImg;
+          ? this.moveDownImg
+          : this.moveRightImg;
       return {
         img: img,
         frameSeq:
           direction === Direction.Up || direction === Direction.Down
-            ? verticalWalkSequence
-            : horizontalWalkSequence,
+            ? this.verticalWalkSequence
+            : this.horizontalWalkSequence,
       };
     }
-    return { img: fightImg, frameSeq: idleSequence };
+    return { img: this.fightImg, frameSeq: this.idleSequence };
   }
 
   // Функция отрисовки анимации
@@ -278,14 +287,14 @@ export class Mob extends Movable {
     this.isDead = true;
 
     window.setTimeout(() => {
-      deadMob.style.left = this.x + 'px';
-      deadMob.style.top = this.y + 'px';
+      this.deadMob.style.left = this.x + 'px';
+      this.deadMob.style.top = this.y + 'px';
       if (this.direction === Direction.Left) {
-        deadMob.style.transform =
+        this.deadMob.style.transform =
           'translate(-50%, calc(-100% + 5px)) scaleX(-1)';
       }
-      document.body.appendChild(deadMob);
-      window.setTimeout(() => deadMob.remove(), 10000);
+      document.body.appendChild(this.deadMob);
+      window.setTimeout(() => this.deadMob.remove(), 10000);
       this.die();
     }, 1000);
   };
@@ -321,4 +330,53 @@ export class Mob extends Movable {
     this.mobElement.style.left = this.x + 'px';
     this.mobElement.style.top = this.y + 'px';
   };
+}
+
+export class Orc extends Mob{
+  constructor(point: Point[]){
+    super(point);
+    this.spriteWidth = 44
+    this.hp = 30;
+    this.maxHP = this.hp
+    this.dmg = 4;
+    this.cost = 15;
+    this.speed = 20
+    this.attackSpeed = 700;
+    this.fightImg.src = 'https://i.ibb.co/3MCjVLb/orc-Attack.png';
+    this.fightSequence = [0,1,2,3,4,5,6]
+    this.idleSequence =[0]
+    this.moveRightImg.src = 'https://i.ibb.co/WvCNv1M/orc-Moving.png'
+    this.horizontalWalkSequence =[0,1,2,3,4,5];
+    this.moveDownImg.src ="https://i.ibb.co/Zd8BmwW/orc-Move-Down.png"
+    this.moveUpImg.src = 'https://i.ibb.co/GdrFM3J/orc-Move-Up.png'
+    this.verticalWalkSequence = [0,1,2,3,4,5]
+    this.dyingImg.src ='https://i.ibb.co/JzxZ4MD/orcDying.png'
+    this.dyingSequence = [0,0,1,1,2,2,3,3,4,4]
+    this.deadMob.src = 'https://i.ibb.co/qC62fWw/Image-4004-at-frame-1.png'
+  }
+}
+
+export class Wolf extends Mob{
+  constructor(point: Point[]){
+    super(point);
+  this.spriteWidth = 38;
+  this.hp = 25;
+  this.maxHP = this.hp
+  this.dmg = 3;
+  this.cost = 15;
+  this.speed = 55
+  this.attackSpeed = 1100;
+  this.moveRightImg.src = 'https://i.ibb.co/Cv8mPpQ/wolf-Right.png'
+  this.horizontalWalkSequence =[0,2,4,6,7];
+  this.moveDownImg.src = 'https://i.ibb.co/Wtw1gmw/wolfDown.png'
+  this.moveUpImg.src = 'https://i.ibb.co/JcJZkLv/wolfUp.png'
+  this.verticalWalkSequence = [0,1,2,3,4];
+  this.fightImg.src = 'https://i.ibb.co/h1drwJY/wolfKusj.png'
+  this.fightSequence = [0,1,2,3,4,5,6,7,8,9]
+  this.dyingImg.src = 'https://i.ibb.co/bH9JkwV/wolfDie.png'
+  this.dyingSequence = [0,1,2,3,4,5,6,7]
+  this.deadMob.src = ''
+  console.log(this.moveRightImg.width / this.horizontalWalkSequence.length)
+  // console.log(this.moveRightImg.width)
+}
 }

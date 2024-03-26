@@ -65,6 +65,11 @@ body {
   transform: translate(-50%, calc(-100% + 5px));
 }
 
+.glow{
+  z-index: 0;
+
+}
+
 .guard {
   position: absolute;
   display: flex;
@@ -131,6 +136,7 @@ body {
   user-select: none;
   transform: translate(-50%, -50%);
 }
+
 
 .radius {
   z-index: 1;

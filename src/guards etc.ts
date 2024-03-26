@@ -98,7 +98,7 @@ export class Rekrut extends Movable {
     deadGuard.className = 'dead';
 
     window.setTimeout(() => {
-      this.delete();
+      this.leave();
     }, 15000);
   }
 
@@ -199,6 +199,7 @@ export class Rekrut extends Movable {
 
   fight(target: Mob) {
     this.state = State.Fighting;
+    this.isInFight = true
 
     const dx = target.x - this.x;
     if (dx < 0) {
@@ -240,12 +241,25 @@ export class Rekrut extends Movable {
     }, 1000);
   };
 
+  leave(){
+    if(!this.isInFight){
+      this.moveTo(this.x-20,this.y)
+      let o = 100
+      window.setInterval(()=>{
+        o -=10;
+        this.canvas.style.opacity =o +  '%'
+      },50)
+      window.setTimeout(()=>{this.delete()},500)
+    } 
+  }
+
   delete() {
     const index = gameState.movables.indexOf(this);
     if (index !== -1) {
       gameState.movables.splice(index, 1);
     }
-    this.element!.remove();
+    if(this.element)
+    this.element.remove();
   }
 
   render() {
@@ -297,7 +311,7 @@ export class Guard extends Movable {
     this.maxHp = this.hp;
 
     this.element = document.createElement('div');
-    this.element.style.pointerEvents = 'none';
+    // this.element.style.pointerEvents = 'none';
     this.element.className = 'guard';
     document.body.appendChild(this.element);
 
@@ -310,6 +324,9 @@ export class Guard extends Movable {
     this.canvas.height = 30;
     this.element.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
+
+    this.element.addEventListener('mouseover',this.onHover);
+    this.element.addEventListener('mouseleave',this.onLeave)
 
     deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
     deadGuard.className = 'dead';
@@ -406,6 +423,16 @@ export class Guard extends Movable {
     this.targetX = x;
     this.targetY = y;
     this.direction = x > this.x ? Direction.Right : Direction.Left;
+  }
+
+  onHover = ()=>{
+    console.log('onHover', this)
+    this.canvas.style.filter ='drop-shadow(yellow 0px 0px 4px)'
+  }
+
+  onLeave = ()=>{
+    console.log('onLeave')
+    this.canvas.style.filter ='drop-shadow(yellow 0px 0px 0px)'
   }
 
   fight(target: Mob) {

@@ -102,7 +102,7 @@ export class FireBomb extends Movable {
     this.speed = 400;
     const img = new Image();
     img.className = 'bullet';
-    img.src = 'https://i.ibb.co/NFK36j6/Image-2353-at-frame-1.png';
+    img.src = 'https://i.ibb.co/17m8837/Image-2353-at-frame-1.png';
     this.element = img;
     this.element.style.rotate = '90deg';
     document.body.appendChild(img);
@@ -243,6 +243,7 @@ export class Explosion {
     private dmg: number
   ) {
     const audio = new Audio();
+    // audio.muted = true
     audio.src =
       'https://audio.buzzsprout.com/9s5qujcaeklbdwfzvt71k8of3jhl?response-content-disposition=inline&';
 
@@ -263,6 +264,7 @@ export class Explosion {
     window.setInterval(() => this.draw(), 100);
     this.hitArea(dmg);
     audio.play();
+
     window.setTimeout(() => {
       this.element.remove();
     }, 1099);
@@ -271,7 +273,8 @@ export class Explosion {
   draw = () => {
     const frameIndex = this.frameSeq[this.animationFrame];
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    console.log('===', frameIndex, this.animationFrame);
+    // console.log('===', frameIndex, this.animationFrame);
+
     this.ctx.drawImage(
       this.src,
       frameIndex * this.spriteWidth,

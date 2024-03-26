@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 import { makeObservable } from 'mobx';
 import { Map } from './Map';
 import { Basement } from './basement';
-import { Mob } from './mob';
+import { Mob, Orc, Wolf } from './mob';
 import { Movable } from './movable';
 import { Tower } from './towers';
 import { IFireball, MapConfig, MobType, SpellType, TowerType } from './types';
@@ -12,7 +12,7 @@ export const mapConfigs: MapConfig[] = [
     id: 0,
     img: 'https://i.ibb.co/SRY5MHh/Image-5-at-frame-1.png',
     song: 'https://audio.buzzsprout.com/8tpu5wtccnaylc7t7g271t5tkkfa?response-content-disposition=inline&',
-    gold: 140,
+    gold: 240,
     road: [
       { x: 325, y: -35 },
       { x: 325, y: 200 },
@@ -31,24 +31,24 @@ export const mapConfigs: MapConfig[] = [
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
-      { time: 1, mob: MobType.Goblin },
+      { time: 1, mob: MobType.Wolf },
       // { time: 3, mob: MobType.Goblin },
       { time: 7, mob: MobType.Goblin },
-      // ////
+      ////
       // { time: 13, mob: MobType.Goblin },
       // { time: 15, mob: MobType.Goblin },
-      // { time: 17, mob: MobType.Goblin },
+      // { time: 17, mob: MobType.Orc },
       // { time: 19, mob: MobType.Goblin },
       // ////
       // { time: 25, mob: MobType.Goblin },
-      // { time: 27, mob: MobType.Goblin },
+      // { time: 27, mob: MobType.Orc },
       // { time: 29, mob: MobType.Goblin },
-      // { time: 31, mob: MobType.Goblin },
+      // { time: 31, mob: MobType.Orc },
       // { time: 33, mob: MobType.Goblin },
-      // { time: 35, mob: MobType.Goblin },
+      // { time: 35, mob: MobType.Orc },
       // //
       // { time: 39, mob: MobType.Goblin },
-      // { time: 41, mob: MobType.Goblin },
+      // { time: 41, mob: MobType.Orc },
       // { time: 43, mob: MobType.Goblin },
       // { time: 4300, mob: MobType.Goblin },
     ],
@@ -145,7 +145,7 @@ export const mapConfigs: MapConfig[] = [
 
 export class GameState {
   @observable
-  public gold = 140;
+  public gold = 0;
   @observable
   public mapFinished = false;
   @observable
@@ -276,6 +276,12 @@ export class GameState {
         switch (mobType) {
           case MobType.Goblin:
             this.monsters.push(new Mob(road));
+            break;
+          case MobType.Orc:
+            this.monsters.push(new Orc(road))
+            break;
+          case MobType.Wolf:
+            this.monsters.push(new Wolf(road))
             break;
         }
       });
