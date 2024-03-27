@@ -191,7 +191,7 @@ export class BarakTower extends Tower {
   towerRadius: HTMLDivElement;
   rallyPoint: Point;
   public guardCount = 0;
-  guardCountLimit = 1;
+  guardCountLimit = 3;
   public active = true;
   public guardList: Guard[] = [];
   mobRadiusPoint: HTMLDivElement;
@@ -238,7 +238,7 @@ export class BarakTower extends Tower {
 
     // Итерируем по каждому углу дороги
     if (!gameState.mapConfig) return;
-    const currentRoad = gameState.mapConfig.road;
+    const currentRoad = gameState.mapConfig.roads[0].points;
     for (let i = 0; i < currentRoad.length - 1; i++) {
       const startCorner = currentRoad[i];
       const endCorner = currentRoad[i + 1];
