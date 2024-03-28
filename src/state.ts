@@ -13,17 +13,29 @@ export const mapConfigs: MapConfig[] = [
     img: 'https://i.ibb.co/SRY5MHh/Image-5-at-frame-1.png',
     song: 'https://audio.buzzsprout.com/8tpu5wtccnaylc7t7g271t5tkkfa?response-content-disposition=inline&',
     gold: 240,
-    road: [
-      { x: 325, y: -35 },
-      { x: 325, y: 200 },
-      { x: 290, y: 240 },
-      { x: 170, y: 290 },
-      { x: 170, y: 360 },
-      { x: 220, y: 420 },
-      { x: 380, y: 415 },
-      { x: 480, y: 440 },
-      { x: 590, y: 350 },
-      { x: 700, y: 330 },
+    roads: [
+      {
+        points: [
+          { x: 325, y: -35 },
+          { x: 325, y: 200 },
+          { x: 290, y: 240 },
+          { x: 170, y: 290 },
+          { x: 170, y: 360 },
+          { x: 220, y: 420 },
+          { x: 380, y: 415 },
+          { x: 480, y: 440 },
+          { x: 590, y: 350 },
+          { x: 700, y: 330 },
+        ], 
+      }, { points:[
+        { x: -25, y: 365 },
+        { x: 170, y: 360 },
+        { x: 215, y: 420 },
+        { x: 380, y: 415 },
+        { x: 480, y: 440 },
+        { x: 590, y: 350 },
+        { x: 700, y: 330 },
+      ]}
     ],
     towers: [
       { x: 220, y: 185, type: TowerType.Base },
@@ -31,9 +43,10 @@ export const mapConfigs: MapConfig[] = [
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
-      { time: 1, mob: MobType.Wolf },
+      { time: 1, mob: MobType.Wolf, road: 0 },
       // { time: 3, mob: MobType.Goblin },
-      { time: 7, mob: MobType.Goblin },
+      { time: 3, mob: MobType.Goblin, road: 0 },
+      { time: 7, mob: MobType.Orc, road: 0 },
       ////
       // { time: 13, mob: MobType.Goblin },
       // { time: 15, mob: MobType.Goblin },
@@ -50,7 +63,7 @@ export const mapConfigs: MapConfig[] = [
       // { time: 39, mob: MobType.Goblin },
       // { time: 41, mob: MobType.Orc },
       // { time: 43, mob: MobType.Goblin },
-      // { time: 4300, mob: MobType.Goblin },
+      { time: 4300, mob: MobType.Goblin, road:0 },
     ],
   },
   {
@@ -58,17 +71,21 @@ export const mapConfigs: MapConfig[] = [
     img: 'https://i.ibb.co/SRY5MHh/Image-5-at-frame-1.png',
     song: 'https://audio.buzzsprout.com/0r0r4hqrlydq1si4n3ypqmzr03va?response-content-disposition=inline&',
     gold: 100,
-    road: [
-      { x: 325, y: -35 },
-      { x: 325, y: 200 },
-      { x: 290, y: 240 },
-      { x: 170, y: 290 },
-      { x: 170, y: 360 },
-      { x: 220, y: 420 },
-      { x: 380, y: 415 },
-      { x: 480, y: 440 },
-      { x: 590, y: 350 },
-      { x: 700, y: 330 },
+    roads: [
+      {
+        points: [
+          { x: 325, y: -35 },
+          { x: 325, y: 200 },
+          { x: 290, y: 240 },
+          { x: 170, y: 290 },
+          { x: 170, y: 360 },
+          { x: 220, y: 420 },
+          { x: 380, y: 415 },
+          { x: 480, y: 440 },
+          { x: 590, y: 350 },
+          { x: 700, y: 330 },
+        ]
+      },
     ],
     towers: [
       { x: 220, y: 185, type: TowerType.Base },
@@ -77,10 +94,10 @@ export const mapConfigs: MapConfig[] = [
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
-      { time: 1, mob: MobType.Goblin },
+      { time: 1, mob: MobType.Goblin, road: 0 },
       // { time: 3, mob: MobType.Goblin },
       ////
-      { time: 7, mob: MobType.Goblin },
+      { time: 7, mob: MobType.Goblin, road: 0 },
       // { time: 8, mob: MobType.Goblin },
       // { time: 9, mob: MobType.Goblin },
       // { time: 10, mob: MobType.Goblin },
@@ -114,8 +131,8 @@ export const mapConfigs: MapConfig[] = [
     img: 'https://i.ibb.co/b1tynPL/Image-521-at-frame-1.png',
     song: 'https://audio.buzzsprout.com/zkklqymtoh5y9dvubnagmd8ld0bd?response-content-disposition=inline&',
     gold: 100,
-    road: [
-      { x: 730, y: 205 },
+    roads: [{
+      points: [{ x: 730, y: 205 },
       { x: 730, y: 210 },
       { x: 525, y: 210 },
       { x: 485, y: 90 },
@@ -128,7 +145,8 @@ export const mapConfigs: MapConfig[] = [
       { x: 450, y: 330 },
       { x: 450, y: 410 },
       { x: 313, y: 460 },
-      { x: 313, y: 575 },
+      { x: 313, y: 575 },]
+    }
     ],
     towers: [
       { x: 290, y: 155, type: TowerType.Base },
@@ -136,9 +154,9 @@ export const mapConfigs: MapConfig[] = [
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
-      { time: 1, mob: MobType.Goblin },
-      { time: 3, mob: MobType.Goblin },
-      { time: 5, mob: MobType.Goblin },
+      { time: 1, mob: MobType.Goblin, road: 0 },
+      { time: 3, mob: MobType.Goblin, road: 0 },
+      { time: 5, mob: MobType.Goblin, road: 0 },
     ],
   },
 ];
@@ -242,7 +260,7 @@ export class GameState {
 
     if (
       this.gameTime >
-        this.mapConfig.vawes[this.mapConfig.vawes.length - 1].time &&
+      this.mapConfig.vawes[this.mapConfig.vawes.length - 1].time &&
       gameState.monsters.length === 0
       // && this.gameMap.castle.hp != 0
     ) {
@@ -257,6 +275,7 @@ export class GameState {
   private update = () => {
     requestAnimationFrame(this.update);
     if (!this.gameRunning) return;
+    
 
     const now = Date.now();
     const dt = (now - this.lastTime) / 1000;
@@ -270,21 +289,22 @@ export class GameState {
         (w) => w.time > prefTime && w.time <= this.gameTime
       );
       // console.log(toSpawn.length);
-      const road = this.mapConfig.road;
-      toSpawn.forEach((w) => {
-        const mobType = w.mob;
-        switch (mobType) {
-          case MobType.Goblin:
-            this.monsters.push(new Mob(road));
-            break;
-          case MobType.Orc:
-            this.monsters.push(new Orc(road))
-            break;
-          case MobType.Wolf:
-            this.monsters.push(new Wolf(road))
-            break;
-        }
-      });
+        toSpawn.forEach((w) => {
+          if(!this.mapConfig) return; 
+          const road = w.road;
+          const mobType = w.mob;
+          switch (mobType) {
+            case MobType.Goblin:
+              this.monsters.push(new Mob(this.mapConfig.roads[road]));
+              break;
+              case MobType.Orc:
+                this.monsters.push(new Orc(this.mapConfig.roads[road]))
+                break;
+                case MobType.Wolf:
+                  this.monsters.push(new Wolf(this.mapConfig.roads[road]))
+                  break;
+                }
+              });
     }
 
     this.monsters.forEach((monster) => {

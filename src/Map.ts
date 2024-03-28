@@ -19,8 +19,8 @@ export class Map {
 
     gameState.gold = config.gold;
 
-    const start = config.road[0];
-    const end = config.road[config.road.length - 1];
+    const start = config.roads[0].points[0];
+    const end = config.roads[0].points[config.roads[0].points.length - 1];
 
     this.castle = new Castle(end.x, end.y);
     this.cave = new Cave(start.x, start.y);

@@ -72,7 +72,7 @@ export const Spells: FC = () => {
         <button onClick={SetUpGuards}> GUARDS </button>
         <button onClick={pause}>pause</button>
         {/* <button onClick={() => gameState.createMap(0)}> MAP1 </button> */}
-        {/* <button onClick={() => gameState.createMap(1)}> MAP2 </button> */}
+        <button onClick={() => gameState.createMap(2)}> MAP3 </button>
       </div>
     </div>
   );

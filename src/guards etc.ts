@@ -27,15 +27,12 @@ interface AnimData {
 
 const guardMoveImg = new Image();
 guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png';
-guardMoveImg.onload = () => console.log('downLoaded');
 
 const guardFightImg = new Image();
 guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
-guardFightImg.onload = () => console.log('fightLoaded');
 
 const guardDyingImg = new Image();
 guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
-guardDyingImg.onload = () => console.log('dyingLoaded');
 
 const deadGuard = new Image();
 deadGuard.style.pointerEvents = 'none';
@@ -48,10 +45,11 @@ const dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4];
 export class Rekrut extends Movable {
   public isInFight = false;
   public died = false;
-  hp = 8;
+  hp = 30;
   maxHp: number;
   hpBar: HpBar;
-  dmg: number = 3;
+  minDmg: number = 1
+  maxDmg: number = 3;
   lastHitAt: number = 0;
   attacksCoolDown = 1200;
   sightRadius = 40;
@@ -64,7 +62,7 @@ export class Rekrut extends Movable {
   spriteHeight = 30; // Высота каждого спрайта в изображении
   animationFrame = 0;
   lastFrame = 0;
-  drawInterval = 100;
+  drawInterval = 10;
 
   direction: Direction.Left | Direction.Right = Direction.Right;
   state = State.Moving;
@@ -197,6 +195,13 @@ export class Rekrut extends Movable {
     this.direction = x > this.x ? Direction.Right : Direction.Left;
   }
 
+  randDamage = (min: number, max: number)=>{
+    let d = max -  min;
+    const random = Math.floor(Math.random()*d)
+    const damage = min + random;
+    return damage
+   }
+
   fight(target: Mob) {
     this.state = State.Fighting;
     this.isInFight = true
@@ -209,7 +214,7 @@ export class Rekrut extends Movable {
     const canHit = Date.now() - this.lastHitAt > this.attacksCoolDown;
     if (canHit && !target.isDead) {
       this.lastHitAt = Date.now();
-      target.hit(this.dmg);
+      target.hit(this.randDamage(this.minDmg, this.maxDmg));
     }
   }
 
@@ -272,13 +277,13 @@ export class Rekrut extends Movable {
 export class Guard extends Movable {
   public isInFight = false;
   public died = false;
-  // hp = 15;
-  hp = 1;
+  hp = 50;
   maxHp: number;
   hpBar: HpBar;
-  dmg: number = 3;
+  minDmg: number = 1;
+  maxDmg: number =3
   lastHitAt: number = 0;
-  attackSpeed = 0.7;
+  attackSpeed = 1500;
   sightRadius = 50;
   attackRaduis = 30;
   mob: Mob | undefined;
@@ -289,7 +294,7 @@ export class Guard extends Movable {
   spriteHeight = 30; // Высота каждого спрайта в изображении
   animationFrame = 0;
   lastFrame = 0;
-  drawInterval = 100;
+  drawInterval = 10;
 
   direction: Direction.Left | Direction.Right = Direction.Right;
   state = State.Moving;
@@ -308,12 +313,12 @@ export class Guard extends Movable {
     this.speed = 100;
     this.x = x;
     this.y = y;
-    this.maxHp = this.hp;
-
+    
     this.element = document.createElement('div');
     // this.element.style.pointerEvents = 'none';
     this.element.className = 'guard';
     document.body.appendChild(this.element);
+    this.maxHp = this.hp;
 
     this.hpBar = new HpBar(this.element, 30, 2, '0', '-100%');
     this.setRallyPoint(rallyPoint);
@@ -359,6 +364,13 @@ export class Guard extends Movable {
     this.draw();
   }
 
+  randDamage = (min: number, max: number)=>{
+    let d = max -  min;
+    const random = Math.floor(Math.random()*d)
+    const damage = min + random;
+    return damage
+   }
+
   getAnimationData(state: State): AnimData {
     if (state === State.Fighting)
       return { img: guardFightImg, frameSeq: fightSequence };
@@ -372,7 +384,7 @@ export class Guard extends Movable {
   }
 
   draw = () => {
-    const canDraw = Date.now() - this.lastFrame > this.drawInterval;
+    const canDraw = Date.now() - this.lastFrame > this.attackSpeed / this.drawInterval;
     if (canDraw) {
       const { img, frameSeq } = this.getAnimationData(this.state);
       this.animationFrame = (this.animationFrame + 1) % frameSeq.length; // Переход к следующему спрайту
@@ -426,12 +438,10 @@ export class Guard extends Movable {
   }
 
   onHover = ()=>{
-    console.log('onHover', this)
     this.canvas.style.filter ='drop-shadow(yellow 0px 0px 4px)'
   }
 
   onLeave = ()=>{
-    console.log('onLeave')
     this.canvas.style.filter ='drop-shadow(yellow 0px 0px 0px)'
   }
 
@@ -443,11 +453,10 @@ export class Guard extends Movable {
       this.direction = Direction.Left;
     }
 
-    const attackInterval = 1000 / this.attackSpeed;
-    const canHit = Date.now() - this.lastHitAt > attackInterval;
+    const canHit = Date.now() - this.lastHitAt > this.attackSpeed;
     if (canHit && !target.isDead) {
       this.lastHitAt = Date.now();
-      target.hit(this.dmg);
+      target.hit(this.randDamage(this.minDmg, this.maxDmg));
     }
   }
 

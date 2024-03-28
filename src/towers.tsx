@@ -34,7 +34,6 @@ export class Tower {
     this.handleHover()
   }
   handleHover(){  
-    console.log('onHover', this)
     this.img.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
   }
 
@@ -43,8 +42,6 @@ export class Tower {
   }
   
   handleLeave(){
-    
-    console.log('onLeave', this)
     this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
   }
 
@@ -336,16 +333,12 @@ export class BarakTower extends Tower {
 
 
   handleHover(){ 
-    // super.handleHover()
-    console.log('onHover1111')
-    this.img.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
+    super.handleHover()
     this.guardList.forEach((g) => g.onHover())
   }
 
   handleLeave(){
-    // super.handleLeave()
-    console.log('onLeave111')
-    this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
+    super.handleLeave()
     this.guardList.forEach((g) => g.onLeave())
   }
 

@@ -24,6 +24,11 @@ export enum MobType {
 export interface WaveSpawn {
   time: number;
   mob: MobType;
+  road: number;
+}
+
+export type RoadPoints = {
+  points: Point[]
 }
 
 export enum SpellType {
@@ -48,7 +53,7 @@ export interface MapConfig {
   img: string;
   song: string;
   gold: number;
-  road: Point[];
+  roads: RoadPoints[];
   towers: TowerConfig[];
   spells: SpellType[];
   vawes: WaveSpawn[];

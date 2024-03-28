@@ -1,5 +1,5 @@
 import { getRandID } from './App';
-import { Point } from './types';
+import { RoadPoints } from './types';
 import { HpBar } from './hpBar';
 import { Movable } from './movable';
 import { gameState } from './state';
@@ -31,9 +31,10 @@ export class Mob extends Movable {
   maxHP: number;
   lastX: number = 0;
   lastY: number = 0;
-  hp: number = 20;
-  dmg = 2;
-  cost = 10;
+  hp: number = 2;
+  minDmg = 1;
+  maxDmg = 4;
+  cost = 3;
 
   enemy: Guard | Rekrut | undefined;
   id: string = getRandID().toString();
@@ -42,7 +43,7 @@ export class Mob extends Movable {
   audio: HTMLAudioElement;
 
   isDead: boolean = false;
-  points: Point[];
+  points: RoadPoints;
   currentPointIndex: number = 0;
   distancePassed: number = 0;
   freezePoint: number = 0;
@@ -52,11 +53,11 @@ export class Mob extends Movable {
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
-  spriteWidth = 37; // Ширина каждого спрайта в изображении
+  spriteWidth = 0; // Ширина каждого спрайта в изображении
   spriteHeight = 30; // Высота каждого спрайта в изображении
   animationFrame = 0;
   lastFrame = 0;
-  drawInterval = 100;
+  drawInterval = 10;
 
   moveRightImg = new Image();
 
@@ -72,27 +73,27 @@ export class Mob extends Movable {
 
 
   horizontalWalkSequence: number[] = [0, 1, 2, 3, 7, 1, 2, 3];
-  verticalWalkSequence: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
+  verticalWalkSequence: number[] = [0, 1, 2, 3, 4, 5, 6, 7,];
   fightSequence = [0, 1, 2, 3, 4, 5, 6, 7];
   idleSequence = [7];
-  dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+  dyingSequence = [0, 1, 2, 3];
 
 
   direction = Direction.Down;
   state = State.Moving;
-  constructor(point: Point[]) {
+  constructor(road: RoadPoints) {
     super();
     this.maxHP = this.hp;
-    this.startX = point[0].x;
-    this.startY = point[0].y;
-    this.points = point;
+    this.startX = road.points[0].x;
+    this.startY = road.points[0].y;
+    this.points = road;
 
     this.speed = 30
     
     this.moveRightImg.src =
     'https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMTNSQ3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--e576042a8b0ea8e0013d4b1c0f458080e8719343/spritesheet.png';
   
-    this.moveDownImg.src = 'https://i.ibb.co/nn7cDQS/goblin-Move-Down.png';
+    this.moveDownImg.src = 'https://i.ibb.co/TmTGV57/goblin-Down.png';
 
     this.moveUpImg.src = 'https://i.ibb.co/XzJFhMQ/goblin-Move-Up.png';
 
@@ -121,6 +122,10 @@ export class Mob extends Movable {
     this.audio.muted = true
     this.audio.src =
       'https://audio.buzzsprout.com/qlji81nzjf0doe8o212ow0g32i1u?response-content-disposition=inline&'
+
+      console.log('horiz===',this.moveRightImg.width / this.horizontalWalkSequence.length)
+      console.log('down===',this.moveDownImg.width / this.verticalWalkSequence.length)
+      console.log('up===',this.moveUpImg.width / this.verticalWalkSequence.length)
   }
 
   update(deltaTime: number) {
@@ -163,12 +168,13 @@ export class Mob extends Movable {
 
   // Функция отрисовки анимации
   draw = () => {
-    const canDraw = Date.now() - this.lastFrame > this.drawInterval;
+    const canDraw = Date.now() - this.lastFrame > this.attackSpeed / this.drawInterval;
     if (canDraw) {
       const { img, frameSeq } = this.getAnimationData(
         this.state,
         this.direction
       );
+      this.spriteWidth = img.width / frameSeq.length
       const frameIndex = frameSeq[this.animationFrame];
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       if (this.direction === Direction.Left) this.ctx.scale(-1, 1);
@@ -192,8 +198,8 @@ export class Mob extends Movable {
 
   move(dt: number) {
     this.state = State.Moving;
-    const currentPoint = this.points[this.currentPointIndex];
-    const nextPoint = this.points[this.currentPointIndex + 1];
+    const currentPoint = this.points.points[this.currentPointIndex];
+    const nextPoint = this.points.points[this.currentPointIndex + 1];
 
     const dx = nextPoint.x - currentPoint.x;
     const dy = nextPoint.y - currentPoint.y;
@@ -219,9 +225,9 @@ export class Mob extends Movable {
   }
 
   checkPathEnded = () => {
-    if (this.currentPointIndex >= this.points.length - 1) {
+    if (this.currentPointIndex >= this.points.points.length - 1) {
       if (gameState.gameMap) {
-        gameState.gameMap.hitCastle(this.dmg);
+        gameState.gameMap.hitCastle(this.maxDmg);
         if (gameState.gameMap.castle.hp != 0) gameState.checkSwitch();
       }
       this.die();
@@ -258,6 +264,13 @@ export class Mob extends Movable {
     //this.speed = 0
   }
 
+  randDamage = (min: number, max: number)=>{
+    let d = max -  min;
+    const random = Math.floor(Math.random()*d)
+    const damage = min + random;
+    return damage
+   }
+
   fight = (enemy: Guard | Rekrut) => {
     // console.log(damage);
     this.state = State.Fighting;
@@ -274,7 +287,7 @@ export class Mob extends Movable {
       );
       if (distance <= this.radius) {
         this.lastHitAt = Date.now();
-        enemy.hit(this.dmg);
+        enemy.hit(this.randDamage(this.minDmg, this.maxDmg));
       }
     }
   };
@@ -296,7 +309,7 @@ export class Mob extends Movable {
       document.body.appendChild(this.deadMob);
       window.setTimeout(() => this.deadMob.remove(), 10000);
       this.die();
-    }, 1000);
+    }, this.attackSpeed / this.drawInterval * this.dyingSequence.length);
   };
 
   die() {
@@ -333,15 +346,15 @@ export class Mob extends Movable {
 }
 
 export class Orc extends Mob{
-  constructor(point: Point[]){
-    super(point);
-    this.spriteWidth = 44
-    this.hp = 30;
+  constructor(road: RoadPoints){
+    super(road);
+    this.hp = 3;
     this.maxHP = this.hp
-    this.dmg = 4;
-    this.cost = 15;
+    this.minDmg = 2;
+    this.maxDmg = 5;
+    this.cost = 10;
     this.speed = 20
-    this.attackSpeed = 700;
+    this.attackSpeed = 1700;
     this.fightImg.src = 'https://i.ibb.co/3MCjVLb/orc-Attack.png';
     this.fightSequence = [0,1,2,3,4,5,6]
     this.idleSequence =[0]
@@ -351,23 +364,24 @@ export class Orc extends Mob{
     this.moveUpImg.src = 'https://i.ibb.co/GdrFM3J/orc-Move-Up.png'
     this.verticalWalkSequence = [0,1,2,3,4,5]
     this.dyingImg.src ='https://i.ibb.co/JzxZ4MD/orcDying.png'
-    this.dyingSequence = [0,0,1,1,2,2,3,3,4,4]
+    this.dyingSequence = [0,1,2,3,4]
     this.deadMob.src = 'https://i.ibb.co/qC62fWw/Image-4004-at-frame-1.png'
   }
 }
 
 export class Wolf extends Mob{
-  constructor(point: Point[]){
-    super(point);
-  this.spriteWidth = 38;
-  this.hp = 25;
+  constructor(road: RoadPoints){
+    super(road);
+  this.hp = 5;
   this.maxHP = this.hp
-  this.dmg = 3;
-  this.cost = 15;
+  this.minDmg = 2;
+  this.maxDmg = 4;
+  this.cost = 5;
   this.speed = 55
   this.attackSpeed = 1100;
-  this.moveRightImg.src = 'https://i.ibb.co/Cv8mPpQ/wolf-Right.png'
-  this.horizontalWalkSequence =[0,2,4,6,7];
+  this.moveRightImg.src = 'https://i.ibb.co/BTXwKmv/wolf-Right2.png'
+  this.horizontalWalkSequence =[0,1,2,3,4];
+  // this.horizontalWalkSequence =[0,1,2,3,4,5,6,7];
   this.moveDownImg.src = 'https://i.ibb.co/Wtw1gmw/wolfDown.png'
   this.moveUpImg.src = 'https://i.ibb.co/JcJZkLv/wolfUp.png'
   this.verticalWalkSequence = [0,1,2,3,4];
@@ -376,7 +390,6 @@ export class Wolf extends Mob{
   this.dyingImg.src = 'https://i.ibb.co/bH9JkwV/wolfDie.png'
   this.dyingSequence = [0,1,2,3,4,5,6,7]
   this.deadMob.src = ''
-  console.log(this.moveRightImg.width / this.horizontalWalkSequence.length)
-  // console.log(this.moveRightImg.width)
+
 }
 }
