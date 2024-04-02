@@ -123,9 +123,9 @@ export class Mob extends Movable {
     this.audio.src =
       'https://audio.buzzsprout.com/qlji81nzjf0doe8o212ow0g32i1u?response-content-disposition=inline&'
 
-      console.log('horiz===',this.moveRightImg.width / this.horizontalWalkSequence.length)
-      console.log('down===',this.moveDownImg.width / this.verticalWalkSequence.length)
-      console.log('up===',this.moveUpImg.width / this.verticalWalkSequence.length)
+      // console.log('horiz===',this.moveRightImg.width / this.horizontalWalkSequence.length)
+      // console.log('down===',this.moveDownImg.width / this.verticalWalkSequence.length)
+      // console.log('up===',this.moveUpImg.width / this.verticalWalkSequence.length)
   }
 
   update(deltaTime: number) {
@@ -390,6 +390,5 @@ export class Wolf extends Mob{
   this.dyingImg.src = 'https://i.ibb.co/bH9JkwV/wolfDie.png'
   this.dyingSequence = [0,1,2,3,4,5,6,7]
   this.deadMob.src = ''
-
-}
+  }
 }

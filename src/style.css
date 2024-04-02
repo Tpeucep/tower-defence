@@ -21,6 +21,24 @@ body {
   position: absolute;
   transform: translate(-50%, -50%);
 }
+
+.fireball{
+  z-index: 20;
+  position: absolute;
+}
+
+.fireball:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  background: red;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+
 .base {
   z-index: 10;
   display: flex;
@@ -29,10 +47,12 @@ body {
 }
 .barak {
   position: absolute;
+  border-radius: 20px;
   transform: translate(-50%, -50%);
 }
 .bomb {
   position: absolute;
+  border-radius: 20px;
   transform: translate(-50%, -50%);
 }
 .buttonDiv {
@@ -63,6 +83,12 @@ body {
   z-index: 20;
   position: absolute;
   transform: translate(-50%, calc(-100% + 5px));
+}
+
+.demo{
+  z-index: 10;
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
 .glow{
@@ -157,13 +183,11 @@ body {
   position: absolute;
   transform: translate(-50%, -50%);
   border-radius: 20px;
-  background-size: cover;
 }
 .fire {
   position: absolute;
   transform: translate(-50%, -50%);
-
-  background-size: cover;
+  border-radius: 20px;
 }
 #myCanvas {
   left: 0;
@@ -222,6 +246,14 @@ body {
   background: mediumseagreen;
 }
 
+.rotate{
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 .continue {
   display: flex;
   align-items: center;
@@ -258,7 +290,7 @@ body {
 .explosion {
   z-index: 12;
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(0%, -55%);
   opacity: 1;
   width: 50px;
   height: 50px;

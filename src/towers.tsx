@@ -265,7 +265,6 @@ export class BarakTower extends Tower {
     // console.log(
     //   `Ближайшая точка на дороге: x: ${closestPointOnRoad.x}, y: ${closestPointOnRoad.y}`
     // );
-    // console.log('блять');
     for (let i = 0; i < this.guardCountLimit; i++) {
       this.createGuardsAtPoint(closestPointOnRoad);
       this.guardCount++;

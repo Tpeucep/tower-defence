@@ -2,15 +2,15 @@ import { BarakTower, BombTower, FreezeTower, Tower } from './towers';
 import { gameState } from './state';
 export class Basement {
   basementEl: HTMLImageElement;
-  freezeEl!: HTMLImageElement;
   FrzCost = 60;
   FireCost = 70;
   BaraCost = 70;
   BombCost = 125;
+  freezeEl!: HTMLImageElement;
   fireEL!: HTMLImageElement;
   barakEl!: HTMLImageElement;
   BombEl!: HTMLImageElement;
-  clicks: number = 0;
+  open: boolean = false;
   constructor(private x: number, private y: number) {
     this.basementEl = document.createElement('img');
     this.basementEl.className = 'base';
@@ -26,13 +26,15 @@ export class Basement {
   }
   onClick = () => {
     if(!gameState.gameRunning) return;
-    this.clicks++;
-    if (this.clicks > 1) {
+    this.open = true;
+    // if (this.open > 1) {
+    if (!this.open) {
       return;
     }
     
     this.freezeEl = document.createElement('img');
     this.freezeEl.className = 'snow';
+    if(gameState.gold < this.FrzCost) this.freezeEl.style.filter ='grayscale(1)';
     this.freezeEl.draggable = false;
     this.freezeEl.src = 'https://i.ibb.co/PZsHGxC/Image-2381-at-frame-1.png';
     this.freezeEl.style.left = this.x - 30 + 'px';
@@ -42,6 +44,7 @@ export class Basement {
 
     this.fireEL = document.createElement('img');
     this.fireEL.className = 'fire';
+    if(gameState.gold < this.FireCost) this.fireEL.style.filter ='grayscale(1)';
     this.fireEL.draggable = false;
     this.fireEL.src = 'https://i.ibb.co/XJ9zxZw/Image-2384-at-frame-1.png';
     this.fireEL.style.left = this.x + 30 + 'px';
@@ -51,6 +54,7 @@ export class Basement {
 
     this.barakEl = document.createElement('img');
     this.barakEl.className = 'barak';
+    if(gameState.gold < this.BaraCost) this.barakEl.style.filter ='grayscale(1)';
     this.barakEl.draggable = false;
     this.barakEl.src = 'https://i.ibb.co/9YSRzTN/Image-2380-at-frame-1.png';
     this.barakEl.style.left = this.x + 30 + 'px';
@@ -60,6 +64,7 @@ export class Basement {
 
     this.BombEl = document.createElement('img');
     this.BombEl.className = 'bomb';
+    if(gameState.gold < this.BombCost) this.BombEl.style.filter ='grayscale(1)';
     this.BombEl.draggable = false;
     this.BombEl.src = 'https://i.ibb.co/s6LDg6j/Image-2382-at-frame-1.png';
     this.BombEl.style.left = this.x - 30 + 'px';
@@ -79,8 +84,8 @@ export class Basement {
   };
 
   closeMenu() {
-    if (this.clicks < 1) return;
-    this.clicks = 0;
+    if (!this.open) return;
+    this.open = false;
     this.freezeEl.remove();
     this.fireEL.remove();
     this.barakEl.remove();

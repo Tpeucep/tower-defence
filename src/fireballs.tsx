@@ -126,7 +126,7 @@ export class FireBomb extends Movable {
     if (index !== -1) {
       gameState.movables.splice(index, 1);
     }
-    this.element!.remove();
+    if(this.element) this.element.remove();
   };
 }
 
