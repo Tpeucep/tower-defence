@@ -31,7 +31,7 @@ export class Mob extends Movable {
   maxHP: number;
   lastX: number = 0;
   lastY: number = 0;
-  hp: number = 2;
+  hp: number = 20;
   minDmg = 1;
   maxDmg = 4;
   cost = 3;
@@ -169,6 +169,7 @@ export class Mob extends Movable {
   // Функция отрисовки анимации
   draw = () => {
     const canDraw = Date.now() - this.lastFrame > this.attackSpeed / this.drawInterval;
+    if(this.state === State.Dead) return;
     if (canDraw) {
       const { img, frameSeq } = this.getAnimationData(
         this.state,
@@ -255,11 +256,11 @@ export class Mob extends Movable {
   freeze() {
     this.freezePoint++;
     this.speed /= 2;
-    this.drawInterval *= 2;
+    // this.drawInterval /= 2;
     setTimeout(() => {
       this.freezePoint--;
       this.speed *= 2;
-      this.drawInterval /= 2;
+      // this.drawInterval *= 2;
     }, 3000);
     //this.speed = 0
   }
@@ -306,8 +307,9 @@ export class Mob extends Movable {
         this.deadMob.style.transform =
           'translate(-50%, calc(-100% + 5px)) scaleX(-1)';
       }
+      this.state = State.Dead;
       document.body.appendChild(this.deadMob);
-      window.setTimeout(() => this.deadMob.remove(), 10000);
+      window.setTimeout(() => this.deadMob.remove(), 5000);
       this.die();
     }, this.attackSpeed / this.drawInterval * this.dyingSequence.length);
   };
@@ -348,7 +350,7 @@ export class Mob extends Movable {
 export class Orc extends Mob{
   constructor(road: RoadPoints){
     super(road);
-    this.hp = 3;
+    this.hp = 20;
     this.maxHP = this.hp
     this.minDmg = 2;
     this.maxDmg = 5;
@@ -372,7 +374,7 @@ export class Orc extends Mob{
 export class Wolf extends Mob{
   constructor(road: RoadPoints){
     super(road);
-  this.hp = 5;
+  this.hp = 50;
   this.maxHP = this.hp
   this.minDmg = 2;
   this.maxDmg = 4;
