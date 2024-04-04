@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "strict": true,
     "target": "ES2022",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    // "include": "typings.d.ts"
   }
 }

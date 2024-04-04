@@ -3,14 +3,26 @@ import { gameState } from './state';
 import { Bomb, FireBall, FrostBall } from './fireballs';
 import { Point } from './types';
 import { Guard } from './guards etc';
+import { Basement } from './basement';
+
+import ringSrc from "./assets/ring.png";
 
 export class Tower {
   towerElement: HTMLDivElement;
   bulletElement!: HTMLImageElement;
+  menu: HTMLDivElement;
+  menuUpgrade: HTMLDivElement;
+  menuUpgradeImg: HTMLImageElement;
+  menuSell: HTMLImageElement;
+  menuRing: HTMLImageElement;
+  damage = 3;
+  upgradeCost = 110;
+  sellCost = 30;
+  menuOpen = false;
   img: HTMLImageElement;
   x: number;
   y: number;
-  radius: number = 105;
+  radius: number = 85;
   distancePassed: number = 0;
   lastShotAt: number = 0;
 
@@ -23,11 +35,61 @@ export class Tower {
     this.img.src = 'https://i.ibb.co/Hnh20MM/Image-154-at-frame-1.png';
     this.img.draggable = false;
 
+    this.menu = document.createElement('div');
+    this.menu.className = 'menu'
+
+
+    this.menuUpgrade = document.createElement('div');
+    // this.menuUpgrade.className ='menuUpgrade';
+    this.menuUpgrade.innerHTML = this.upgradeCost.toString();
+    this.menu.appendChild(this.menuUpgrade);
+    this.menuUpgrade.className = 'menuUpgrd'
+    this.menuUpgradeImg = document.createElement('img')
+    this.menuUpgradeImg.src = 'https://i.ibb.co/qkN4zSR/Image-477-at-frame-1.png';
+    this.menuUpgradeImg.className ='menuUpgrdImg'
+    if(gameState.gold< this.upgradeCost) this.menuUpgradeImg.style.filter ='grayscale(1)';
+    this.menuUpgrade.appendChild(this.menuUpgradeImg)
+
+
+    this.menuRing = document.createElement('img');
+    // this.menuRing.src ='https://i.ibb.co/94Wtbt4/2024-04-03-0sw-Kleki.png';
+    this.menuRing.src =ringSrc;
+    this.menuRing.className = 'menuRing'
+
+
+    this.menuSell = document.createElement('img');
+    this.menuSell.src = 'https://i.ibb.co/n7J5JVy/Image-474-at-frame-1.png';
+    this.menuSell.addEventListener('click', this.sell);
+    this.menuSell.className = 'menuSell';
+    this.menuSell.style.top = this.img.height + 'px'
+    this.menu.appendChild(this.menuSell);
+    
+    this.menu.appendChild(this.menuRing);
+    
     document.body.appendChild(this.towerElement);
     this.towerElement.appendChild(this.img);
     this.render();
-    this.towerElement.addEventListener('mouseover', this.onHover);
-    this.towerElement.addEventListener('mouseleave', this.onLeave)
+    this.menuUpgradeImg.addEventListener('click', this.upgrade)
+    this.img.addEventListener('mouseover', this.onHover);
+    this.img.addEventListener('mouseleave', this.onLeave);
+    this.img.addEventListener('click', this.openMenu ) ;
+  }
+
+  sell=()=>{
+    console.log('===sell')
+    gameState.gold += this.sellCost
+    this.reset()
+    const basement = new Basement(this.x, this.y)
+    this.closeMenu()
+  }
+
+  upgrade=()=>{
+    if(gameState.gold >= this.upgradeCost){
+      //  this.reset()  /// удаление этой башни
+      /// зоздание башни следуйщего уровня
+      gameState.gold -= this.upgradeCost
+    }
+    this.closeMenu()
   }
 
   onHover =()=>  {
@@ -40,9 +102,28 @@ export class Tower {
   onLeave =()=> {
     this.handleLeave()
   }
-  
+
   handleLeave(){
     this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
+  }
+
+  openMenu =()=>{
+    console.log('open')
+      this.towerElement.appendChild(this.menu);
+      this.img.removeEventListener('click', this.openMenu);
+      window.setTimeout(() => {
+        document.body.addEventListener('click', this.closeMenu);
+      }, 100);
+    
+  }
+  
+  closeMenu=()=>{
+    console.log('close')
+    this.menu.remove();
+    document.body.removeEventListener('click', this.closeMenu);
+    window.setTimeout(() => {
+      this.img.addEventListener('click', this.openMenu);
+    }, 100);
   }
 
   public update = () => {
@@ -60,7 +141,7 @@ export class Tower {
         if (distance <= this.radius && !monster.isDead) {
           // console.log(Date.now() - this.lastShotAt);
           this.lastShotAt = Date.now();
-          const fireball = new FireBall(this.x, this.y - 15, monster);
+          const fireball = new FireBall(this.x, this.y - 15,this.damage, monster);
           gameState.fireBalls.push(fireball);
           break;
         }
@@ -90,12 +171,21 @@ export class Tower {
   }
 }
 
+class Tower2 extends Tower{
+  constructor(x: number, y: number) {
+    super(x, y);
+    this.radius = 100;
+    this.damage = 5;
+    this.img.src= ''
+  }
+}
 export class FreezeTower extends Tower {
   constructor(x: number, y: number) {
     super(x, y);
     this.x;
     this.y;
-    this.radius = 100;
+    this.damage = 2;
+    this.radius = 60;
     this.img.src =
       'https://stackblitz.com/storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNEF2Q3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--eb890839916c483c01d6b8825af970716dcc8caf/Image%2098%20at%20frame%201.png';
     this.render();
@@ -118,7 +208,7 @@ export class FreezeTower extends Tower {
 
           if (distance <= this.radius && !monster.isDead) {
             this.lastShotAt = Date.now();
-            const frostball = new FrostBall(this.x, this.y - 15, monster);
+            const frostball = new FrostBall(this.x, this.y - 15, this.damage, monster);
             gameState.fireBalls.push(frostball);
             break;
           }
@@ -138,12 +228,22 @@ export class FreezeTower extends Tower {
   };
 }
 
+class FreezeTower2 extends FreezeTower{
+  constructor(x: number, y: number) {
+    super(x,y);
+    this.damage = 5;
+    this.radius = 80;
+    this.img.src = 'https://i.ibb.co/tsbjHWj/Image-94-at-frame-1.png'
+  }
+}
+
 export class BombTower extends Tower {
   audio: HTMLAudioElement;
   constructor(x: number, y: number) {
     super(x, y);
     this.x;
     this.y;
+    this.damage = 8
     this.radius = 120;
     this.img.src = 'https://i.ibb.co/5jm0fN9/Image-246-at-frame-1.png';
 
@@ -173,7 +273,8 @@ export class BombTower extends Tower {
             this.x + 2.5,
             this.y - 20,
             monster.x,
-            monster.y
+            monster.y,
+            this.damage,
           );
           this.audio.play();
           gameState.fireBalls.push(bomb);
@@ -222,7 +323,7 @@ export class BarakTower extends Tower {
         guards.setRallyPoint(this.rallyPoint);
       }
     });
-    this.closeMenu();
+    this.closeRadius();
     // this.openMenu();
     this.render();
     this.checkRoad();
@@ -335,23 +436,32 @@ export class BarakTower extends Tower {
     super.handleHover()
     this.guardList.forEach((g) => g.onHover())
   }
-
+  
   handleLeave(){
     super.handleLeave()
     this.guardList.forEach((g) => g.onLeave())
   }
 
-  closeMenu = () => {
+  openRadius = () => {
+    this.towerElement.appendChild(this.towerRadius);
+    // console.log(this.towerRadius);
+    this.towerElement.removeEventListener('click', this.openRadius);
+    window.setTimeout(() => {
+      document.body.addEventListener('click', this.closeRadius);
+    }, 100);
+  };
+
+  closeRadius = () => {
     this.towerRadius.remove();
     // console.log('phase1');
-    document.body.removeEventListener('click', this.closeMenu);
+    document.body.removeEventListener('click', this.closeRadius);
     window.setTimeout(() => {
-      this.towerElement.addEventListener('click', this.openMenu);
+      this.towerElement.addEventListener('click', this.openRadius);
     }, 100);
   };
   reset() {
     this.active = false;
-    this.closeMenu();
+    this.closeRadius();
     for (let i = this.guardList.length - 1; i >= 0; i--) {
       const gvard = this.guardList[i];
       gvard.die();
@@ -371,14 +481,6 @@ export class BarakTower extends Tower {
     }
     // console.log('dead: ', this.guardList);
   }
-  openMenu = () => {
-    this.towerElement.appendChild(this.towerRadius);
-    // console.log(this.towerRadius);
-    this.towerElement.removeEventListener('click', this.openMenu);
-    window.setTimeout(() => {
-      document.body.addEventListener('click', this.closeMenu);
-    }, 100);
-  };
 
   render() {
     this.towerElement.style.left = this.x + 'px';

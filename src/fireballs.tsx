@@ -14,12 +14,11 @@ export class FireBall implements IFireball {
   x: number;
   y: number;
   target: Mob;
-  dmg: number = 3;
   distancePassed = 0;
   radius: number = 10;
   speed = 180;
 
-  constructor(startX: number, startY: number, target: Mob) {
+  constructor(startX: number, startY: number, public dmg:number, target: Mob) {
     this.startX = startX;
     this.startY = startY;
     this.target = target;
@@ -75,8 +74,8 @@ export class FireBall implements IFireball {
 }
 
 export class FrostBall extends FireBall {
-  constructor(x: number, y: number, target: Mob) {
-    super(x, y, target);
+  constructor(x: number, y: number, dmg: number, target: Mob) {
+    super(x, y, dmg, target);
     this.dmg = 1;
     this.ballElement.src = 'https://i.ibb.co/nL7Zq7M/image.png';
   }
@@ -92,7 +91,7 @@ export class FireBomb extends Movable {
   radius: number = 30;
   dmg: number = 6;
   srcs: string[] = [];
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number ,) {
     super();
     this.y = -20;
     this.x = x;
@@ -134,13 +133,13 @@ export class Bomb extends Movable {
   shadowX: number = 0;
   shadowY: number = 0;
   radius = 30;
-  dmg = 7;
   explosion: HTMLImageElement;
   constructor(
     private startX: number,
     private startY: number,
     x: number,
-    y: number
+    y: number,
+    public dmg: number
   ) {
     super();
     // console.log(startX, startY, x, y);
