@@ -23,7 +23,6 @@ export class Tower {
   x: number;
   y: number;
   radius: number = 85;
-  distancePassed: number = 0;
   lastShotAt: number = 0;
 
   constructor(x: number, y: number) {
@@ -244,7 +243,7 @@ export class BombTower extends Tower {
     this.x;
     this.y;
     this.damage = 8
-    this.radius = 120;
+    this.radius = 100;
     this.img.src = 'https://i.ibb.co/5jm0fN9/Image-246-at-frame-1.png';
 
     this.audio = new Audio();
@@ -283,6 +282,15 @@ export class BombTower extends Tower {
       }
     }
   };
+}
+
+class BombTower2 extends BombTower{
+  constructor(x: number, y: number) {
+    super(x,y);
+    this.damage = 10;
+    this.radius = 115;
+    this.img.src = 'https://i.ibb.co/3Rh2y63/Image-297-at-frame-1.png'
+  }
 }
 
 export class BarakTower extends Tower {
