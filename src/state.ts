@@ -254,6 +254,29 @@ export class GameState {
     if (this.mapConfig) this.currentId = this.mapConfig.id;
   };
 
+  public draw =(ctx:CanvasRenderingContext2D ,img: HTMLImageElement, cw: number, ch:number, frameSeq: number[], animationFrame: number) =>{
+
+    const frameIndex = frameSeq[animationFrame];
+    ctx.clearRect(0, 0, cw, ch);
+    console.log('===', frameIndex, animationFrame);
+
+    ctx.drawImage(
+      img,
+      frameIndex * cw,
+      0,
+      cw,
+      ch,
+      0,
+      0,
+      cw,
+      ch,
+    ); // Отрисовка текущего спрайта
+    animationFrame = (animationFrame + 1) % frameSeq.length; // Переход к следующему спрайту
+    ctx.resetTransform();
+    // this.ctx.drawImage(img, 0, 0);
+    return animationFrame;
+  } 
+
   public checkSwitch = () => {
     if (!this.mapConfig) return;
     if (!this.gameMap) return;

@@ -15,6 +15,7 @@ export class Tower {
   menuUpgradeImg: HTMLImageElement;
   menuSell: HTMLImageElement;
   menuRing: HTMLImageElement;
+  tier2Tower! :Tower;
   damage = 3;
   upgradeCost = 110;
   sellCost = 30;
@@ -24,6 +25,7 @@ export class Tower {
   y: number;
   radius: number = 85;
   lastShotAt: number = 0;
+  attackSpeed = 700;
 
   constructor(x: number, y: number) {
     this.x = x;
@@ -45,14 +47,14 @@ export class Tower {
     this.menuUpgrade.className = 'menuUpgrd'
     this.menuUpgradeImg = document.createElement('img')
     this.menuUpgradeImg.src = 'https://i.ibb.co/qkN4zSR/Image-477-at-frame-1.png';
-    this.menuUpgradeImg.className ='menuUpgrdImg'
-    if(gameState.gold< this.upgradeCost) this.menuUpgradeImg.style.filter ='grayscale(1)';
+    this.menuUpgradeImg.className = 'menuUpgrdImg'
+    if (gameState.gold < this.upgradeCost) this.menuUpgradeImg.style.filter = 'grayscale(1)';
     this.menuUpgrade.appendChild(this.menuUpgradeImg)
 
 
     this.menuRing = document.createElement('img');
     // this.menuRing.src ='https://i.ibb.co/94Wtbt4/2024-04-03-0sw-Kleki.png';
-    this.menuRing.src =ringSrc;
+    this.menuRing.src = ringSrc;
     this.menuRing.className = 'menuRing'
 
 
@@ -62,19 +64,19 @@ export class Tower {
     this.menuSell.className = 'menuSell';
     this.menuSell.style.top = this.img.height + 'px'
     this.menu.appendChild(this.menuSell);
-    
+
     this.menu.appendChild(this.menuRing);
-    
+
     document.body.appendChild(this.towerElement);
     this.towerElement.appendChild(this.img);
     this.render();
     this.menuUpgradeImg.addEventListener('click', this.upgrade)
     this.img.addEventListener('mouseover', this.onHover);
     this.img.addEventListener('mouseleave', this.onLeave);
-    this.img.addEventListener('click', this.openMenu ) ;
+    this.img.addEventListener('click', this.openMenu);
   }
 
-  sell=()=>{
+  sell = () => {
     console.log('===sell')
     gameState.gold += this.sellCost
     this.reset()
@@ -82,41 +84,41 @@ export class Tower {
     this.closeMenu()
   }
 
-  upgrade=()=>{
-    if(gameState.gold >= this.upgradeCost){
-      //  this.reset()  /// удаление этой башни
-      /// зоздание башни следуйщего уровня
+  upgrade () {
+    if (gameState.gold >= this.upgradeCost) {
       gameState.gold -= this.upgradeCost
+       this.reset()  /// удаление этой башни
+      this.tier2Tower = new Tower2(this.x, this.y)// зоздание башни следуйщего уровня
     }
     this.closeMenu()
   }
 
-  onHover =()=>  {
+  onHover = () => {
     this.handleHover()
   }
-  handleHover(){  
+  handleHover() {
     this.img.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
   }
 
-  onLeave =()=> {
+  onLeave = () => {
     this.handleLeave()
   }
 
-  handleLeave(){
+  handleLeave() {
     this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
   }
 
-  openMenu =()=>{
+  openMenu = () => {
     console.log('open')
-      this.towerElement.appendChild(this.menu);
-      this.img.removeEventListener('click', this.openMenu);
-      window.setTimeout(() => {
-        document.body.addEventListener('click', this.closeMenu);
-      }, 100);
-    
+    this.towerElement.appendChild(this.menu);
+    this.img.removeEventListener('click', this.openMenu);
+    window.setTimeout(() => {
+      document.body.addEventListener('click', this.closeMenu);
+    }, 100);
+
   }
-  
-  closeMenu=()=>{
+
+  closeMenu = () => {
     console.log('close')
     this.menu.remove();
     document.body.removeEventListener('click', this.closeMenu);
@@ -128,7 +130,7 @@ export class Tower {
   public update = () => {
     const towerCenterX = this.x;
     const towerCenterY = this.y;
-    const canShoot = Date.now() - this.lastShotAt > 700;
+    const canShoot = Date.now() - this.lastShotAt > this.attackSpeed;
 
     if (canShoot) {
       for (let i = 0; i < gameState.monsters.length; i++) {
@@ -140,7 +142,7 @@ export class Tower {
         if (distance <= this.radius && !monster.isDead) {
           // console.log(Date.now() - this.lastShotAt);
           this.lastShotAt = Date.now();
-          const fireball = new FireBall(this.x, this.y - 15,this.damage, monster);
+          const fireball = new FireBall(this.x, this.y - 15, this.damage, monster);
           gameState.fireBalls.push(fireball);
           break;
         }
@@ -170,35 +172,48 @@ export class Tower {
   }
 }
 
-class Tower2 extends Tower{
+class Tower2 extends Tower {
   constructor(x: number, y: number) {
     super(x, y);
     this.radius = 100;
+    this.sellCost = 60;
     this.damage = 5;
-    this.img.src= ''
+    this.menuUpgrade.innerHTML ='';
+    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+  }
+  upgrade= () =>{
+    this.closeMenu()
   }
 }
 export class FreezeTower extends Tower {
+  frezeLevel = 3
   constructor(x: number, y: number) {
     super(x, y);
     this.x;
     this.y;
-    this.damage = 2;
-    this.radius = 60;
+    this.damage = 5;
+    this.radius = 100;
+    this.attackSpeed = 500;
     this.img.src =
       'https://stackblitz.com/storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNEF2Q3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--eb890839916c483c01d6b8825af970716dcc8caf/Image%2098%20at%20frame%201.png';
     this.render();
   }
+
+  upgrade =() => {
+    super.upgrade()
+    this.tier2Tower = new FreezeTower2(this.x, this.y)
+  }
+
   public update = () => {
-    
+
     const towerCenterX = this.x;
     const towerCenterY = this.y;
-    const canShoot = Date.now() - this.lastShotAt > 400;
+    const canShoot = Date.now() - this.lastShotAt > this.attackSpeed;
 
     if (canShoot) {
       for (let i = 0; i < gameState.monsters.length; i++) {
         const monster = gameState.monsters[i];
-        if (monster.freezePoint <= 3) {
+        if (monster.freezePoint <= this.frezeLevel) {
           const distance = Math.sqrt(
             Math.pow(monster.x - towerCenterX, 2) +
             Math.pow(monster.y - towerCenterY, 2)
@@ -227,12 +242,20 @@ export class FreezeTower extends Tower {
   };
 }
 
-class FreezeTower2 extends FreezeTower{
+class FreezeTower2 extends FreezeTower {
   constructor(x: number, y: number) {
-    super(x,y);
-    this.damage = 5;
-    this.radius = 80;
-    this.img.src = 'https://i.ibb.co/tsbjHWj/Image-94-at-frame-1.png'
+    super(x, y);
+    this.damage = 7;
+    this.radius = 110;
+    this.frezeLevel = 2;
+    this.attackSpeed = 800;
+    this.sellCost = 80;
+    this.img.src = 'https://i.ibb.co/DWh2n7Z/Image-88-at-frame-1.png'
+    this.menuUpgrade.innerHTML ='';
+    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+  }
+  upgrade= () =>{
+    this.closeMenu()
   }
 }
 
@@ -242,10 +265,10 @@ export class BombTower extends Tower {
     super(x, y);
     this.x;
     this.y;
+    this.attackSpeed = 2500
     this.damage = 8
     this.radius = 100;
     this.img.src = 'https://i.ibb.co/5jm0fN9/Image-246-at-frame-1.png';
-
     this.audio = new Audio();
     // this.audio.muted = true
     this.audio.src =
@@ -256,7 +279,7 @@ export class BombTower extends Tower {
   public update = () => {
     const towerCenterX = this.x;
     const towerCenterY = this.y;
-    const canShoot = Date.now() - this.lastShotAt > 2500;
+    const canShoot = Date.now() - this.lastShotAt > this.attackSpeed;
 
     if (canShoot) {
       for (let i = 0; i < gameState.monsters.length; i++) {
@@ -284,12 +307,19 @@ export class BombTower extends Tower {
   };
 }
 
-class BombTower2 extends BombTower{
+class BombTower2 extends BombTower {
   constructor(x: number, y: number) {
-    super(x,y);
+    super(x, y);
     this.damage = 10;
     this.radius = 115;
     this.img.src = 'https://i.ibb.co/3Rh2y63/Image-297-at-frame-1.png'
+    this.sellCost = 130;
+    this.img.src = 'https://i.ibb.co/DWh2n7Z/Image-88-at-frame-1.png'
+    this.menuUpgrade.innerHTML ='';
+    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+  }
+  upgrade= () =>{
+    this.closeMenu()
   }
 }
 
@@ -433,19 +463,24 @@ export class BarakTower extends Tower {
       // guard.moveTo(closestPoint.x, closestPoint.y);
     }
   };
+
   public createGuards(coords: Point) {
     this.createGuardsAtPoint(coords);
     // console.log(coords);
   }
   update = () => { }; // ----------НЕ----ТРОГАТЬ----------
 
+  upgrade() {
+    super.upgrade()
+    this.tier2Tower = new BarakTower2(this.x, this.y)
+  }
 
-  handleHover(){ 
+  handleHover() {
     super.handleHover()
     this.guardList.forEach((g) => g.onHover())
   }
-  
-  handleLeave(){
+
+  handleLeave() {
     super.handleLeave()
     this.guardList.forEach((g) => g.onLeave())
   }
@@ -494,4 +529,43 @@ export class BarakTower extends Tower {
     this.towerElement.style.left = this.x + 'px';
     this.towerElement.style.top = this.y + 'px';
   }
+}
+
+class BarakTower2 extends BarakTower{
+  constructor(x: number, y: number) {
+    super(x, y);
+    // this.damage = 10;
+    this.radius = 115;
+    this.img.src = 'https://i.ibb.co/vQ5MdtW/Image-53-at-frame-1.png'
+    this.sellCost = 70;
+    this.img.src = 'https://i.ibb.co/DWh2n7Z/Image-88-at-frame-1.png'
+    this.menuUpgrade.innerHTML ='';
+    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+  }
+  upgrade= () =>{
+    this.closeMenu()
+  }
+
+  public createGuardsAtPoint = (closestPoint: Point) => {
+    const ids: number[] = [];
+    for (let i = 0; i < this.guardCountLimit; i++) {
+      let found = false;
+      for (let j = 0; j < this.guardList.length; j++) {
+        if (this.guardList[j].id === i) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) ids.push(i);
+    }
+    // console.log('ids', ids);
+
+    for (let i = 0; i < ids.length; i++) {
+      const guard = new Guard(this.x, this.y, closestPoint, this, ids[i]);
+      // console.log(this.x, this.y);
+      this.guardList.push(guard);
+      gameState.movables.push(guard);
+      // guard.moveTo(closestPoint.x, closestPoint.y);
+    }
+  };
 }

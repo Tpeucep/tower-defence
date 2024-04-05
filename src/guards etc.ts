@@ -25,22 +25,22 @@ interface AnimData {
   frameSeq: number[];
 }
 
-const guardMoveImg = new Image();
-guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png';
+// const guardMoveImg = new Image();
+// guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png';
 
-const guardFightImg = new Image();
-guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
+// const guardFightImg = new Image();
+// guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
 
-const guardDyingImg = new Image();
-guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
+// const guardDyingImg = new Image();
+// guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
 
-const deadGuard = new Image();
-deadGuard.style.pointerEvents = 'none';
+// const deadGuard = new Image();
+// deadGuard.style.pointerEvents = 'none';
 
-const walkSequence: number[] = [0, 1, 2, 3, 4, 5];
-const fightSequence = [0, 0, 1, 1, 2, 2];
-const idleSequence = [0];
-const dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4];
+// const walkSequence: number[] = [0, 1, 2, 3, 4, 5];
+// const fightSequence = [0, 0, 1, 1, 2, 2];
+// const idleSequence = [0];
+// const dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4];
 
 export class Rekrut extends Movable {
   public isInFight = false;
@@ -55,6 +55,18 @@ export class Rekrut extends Movable {
   sightRadius = 40;
   attackRaduis = 30;
   mob: Mob | undefined;
+
+  guardMoveImg: HTMLImageElement;
+  guardFightImg: HTMLImageElement;
+  guardDyingImg: HTMLImageElement;
+  deadGuard: HTMLImageElement;
+
+
+  walkSequence: number[] = [0, 1, 2, 3, 4, 5];
+  fightSequence = [0, 0, 1, 1, 2, 2];
+  idleSequence = [0];
+  dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4];
+
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -92,8 +104,19 @@ export class Rekrut extends Movable {
     this.element.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
 
-    deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
-    deadGuard.className = 'dead';
+    this.guardMoveImg = document.createElement('img')
+    this.guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png'
+
+    this.guardFightImg = document.createElement('img')
+    this.guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
+    
+    this.guardDyingImg = document.createElement('img')
+    this.guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
+    
+    this.deadGuard = document.createElement('img')
+    this.deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
+    this.deadGuard.style.pointerEvents = 'none';
+    this.deadGuard.className = 'dead';
 
     window.setTimeout(() => {
       this.leave();
@@ -130,19 +153,19 @@ export class Rekrut extends Movable {
 
   getAnimationData(state: State): AnimData {
     if (state === State.Fighting)
-      return { img: guardFightImg, frameSeq: fightSequence };
+      return { img: this.guardFightImg, frameSeq: this.fightSequence };
     if (state === State.Dying)
-      return { img: guardDyingImg, frameSeq: dyingSequence };
+      return { img: this.guardDyingImg, frameSeq: this.dyingSequence };
     if (state === State.Moving) {
-      const img = guardMoveImg;
-      return { img: img, frameSeq: walkSequence };
+      const img = this.guardMoveImg;
+      return { img: img, frameSeq: this.walkSequence };
     }
-    return { img: guardMoveImg, frameSeq: idleSequence };
+    return { img: this.guardMoveImg, frameSeq: this.idleSequence };
   }
 
   draw = () => {
     const canDraw =
-      Date.now() - this.lastFrame > this.attacksCoolDown / fightSequence.length;
+      Date.now() - this.lastFrame > this.attacksCoolDown / this.fightSequence.length;
     if (canDraw) {
       const { img, frameSeq } = this.getAnimationData(this.state);
       this.animationFrame = (this.animationFrame + 1) % frameSeq.length; // Переход к следующему спрайту
@@ -195,27 +218,27 @@ export class Rekrut extends Movable {
     this.direction = x > this.x ? Direction.Right : Direction.Left;
   }
 
-  randDamage = (min: number, max: number)=>{
-    let d = max -  min;
-    const random = Math.floor(Math.random()*d)
+  randDamage = (min: number, max: number) => {
+    let d = max - min;
+    const random = Math.floor(Math.random() * d)
     const damage = min + random;
     return damage
-   }
+  }
 
   fight(target: Mob) {
-    this.state = State.Fighting;
     this.isInFight = true
-
+    
     const dx = target.x - this.x;
     if (dx < 0) {
       this.direction = Direction.Left;
     }
-
+    
     const canHit = Date.now() - this.lastHitAt > this.attacksCoolDown;
     if (canHit && !target.isDead) {
+      this.state = State.Fighting;
       this.lastHitAt = Date.now();
       target.hit(this.randDamage(this.minDmg, this.maxDmg));
-    }
+    } else this.state = State.Idle;
   }
 
   public hit(dmg: number) {
@@ -234,28 +257,28 @@ export class Rekrut extends Movable {
     this.hpBar.remove();
 
     window.setTimeout(() => {
-      deadGuard.style.left = this.x + 'px';
-      deadGuard.style.top = this.y + 'px';
+      this.deadGuard.style.left = this.x + 'px';
+      this.deadGuard.style.top = this.y + 'px';
       if (this.direction === Direction.Left) {
-        deadGuard.style.transform =
+        this.deadGuard.style.transform =
           'translate(-50%, calc(-100% + 5px)) scaleX(-1)';
       }
-      document.body.appendChild(deadGuard);
-      window.setTimeout(() => deadGuard.remove(), 7000);
+      document.body.appendChild(this.deadGuard);
+      window.setTimeout(() => this.deadGuard.remove(), 7000);
       this.delete();
     }, 1000);
   };
 
-  leave(){
-    if(!this.isInFight){
-      this.moveTo(this.x-20,this.y)
+  leave() {
+    if (!this.isInFight) {
+      this.moveTo(this.x - 20, this.y)
       let o = 100
-      window.setInterval(()=>{
-        o -=10;
-        this.canvas.style.opacity =o +  '%'
-      },50)
-      window.setTimeout(()=>{this.delete()},500)
-    } 
+      window.setInterval(() => {
+        o -= 10;
+        this.canvas.style.opacity = o + '%'
+      }, 50)
+      window.setTimeout(() => { this.delete() }, 500)
+    }
   }
 
   delete() {
@@ -263,8 +286,8 @@ export class Rekrut extends Movable {
     if (index !== -1) {
       gameState.movables.splice(index, 1);
     }
-    if(this.element)
-    this.element.remove();
+    if (this.element)
+      this.element.remove();
   }
 
   render() {
@@ -281,12 +304,23 @@ export class Guard extends Movable {
   maxHp: number;
   hpBar: HpBar;
   minDmg: number = 1;
-  maxDmg: number =3
+  maxDmg: number = 3
   lastHitAt: number = 0;
   attackSpeed = 1500;
   sightRadius = 50;
   attackRaduis = 30;
   mob: Mob | undefined;
+
+  guardMoveImg: HTMLImageElement;
+  guardFightImg: HTMLImageElement;
+  guardDyingImg: HTMLImageElement;
+  deadGuard: HTMLImageElement;
+
+
+  walkSequence: number[] = [0, 1, 2, 3, 4, 5];
+  fightSequence = [0, 0, 1, 1, 2, 2];
+  idleSequence = [0];
+  dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4];
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -313,7 +347,7 @@ export class Guard extends Movable {
     this.speed = 100;
     this.x = x;
     this.y = y;
-    
+
     this.element = document.createElement('div');
     // this.element.style.pointerEvents = 'none';
     this.element.className = 'guard';
@@ -330,11 +364,22 @@ export class Guard extends Movable {
     this.element.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
 
-    this.element.addEventListener('mouseover',this.onHover);
-    this.element.addEventListener('mouseleave',this.onLeave)
+    this.element.addEventListener('mouseover', this.onHover);
+    this.element.addEventListener('mouseleave', this.onLeave)
 
-    deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
-    deadGuard.className = 'dead';
+    this.guardMoveImg = document.createElement('img')
+    this.guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png'
+
+    this.guardFightImg = document.createElement('img')
+    this.guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
+    
+    this.guardDyingImg = document.createElement('img')
+    this.guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
+    
+    this.deadGuard = document.createElement('img')
+    this.deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
+    this.deadGuard.style.pointerEvents = 'none';
+    this.deadGuard.className = 'dead';
   }
   update(dt: number) {
     super.update(dt);
@@ -364,23 +409,23 @@ export class Guard extends Movable {
     this.draw();
   }
 
-  randDamage = (min: number, max: number)=>{
-    let d = max -  min;
-    const random = Math.floor(Math.random()*d)
+  randDamage = (min: number, max: number) => {
+    let d = max - min;
+    const random = Math.floor(Math.random() * d)
     const damage = min + random;
     return damage
-   }
+  }
 
   getAnimationData(state: State): AnimData {
     if (state === State.Fighting)
-      return { img: guardFightImg, frameSeq: fightSequence };
+      return { img: this.guardFightImg, frameSeq: this.fightSequence };
     if (state === State.Dying)
-      return { img: guardDyingImg, frameSeq: dyingSequence };
+      return { img: this.guardDyingImg, frameSeq: this.dyingSequence };
     if (state === State.Moving) {
-      const img = guardMoveImg;
-      return { img: img, frameSeq: walkSequence };
+      const img = this.guardMoveImg;
+      return { img: img, frameSeq: this.walkSequence };
     }
-    return { img: guardMoveImg, frameSeq: idleSequence };
+    return { img: this.guardMoveImg, frameSeq: this.idleSequence };
   }
 
   draw = () => {
@@ -437,12 +482,12 @@ export class Guard extends Movable {
     this.direction = x > this.x ? Direction.Right : Direction.Left;
   }
 
-  onHover = ()=>{
-    this.canvas.style.filter ='drop-shadow(yellow 0px 0px 4px)'
+  onHover = () => {
+    this.canvas.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
   }
 
-  onLeave = ()=>{
-    this.canvas.style.filter ='drop-shadow(yellow 0px 0px 0px)'
+  onLeave = () => {
+    this.canvas.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
   }
 
   fight(target: Mob) {
@@ -491,14 +536,14 @@ export class Guard extends Movable {
     this.hpBar.remove();
 
     window.setTimeout(() => {
-      deadGuard.style.left = this.x + 'px';
-      deadGuard.style.top = this.y + 'px';
+      this.deadGuard.style.left = this.x + 'px';
+      this.deadGuard.style.top = this.y + 'px';
       if (this.direction === Direction.Left) {
-        deadGuard.style.transform =
+        this.deadGuard.style.transform =
           'translate(-50%, calc(-100% + 5px)) scaleX(-1)';
       }
-      document.body.appendChild(deadGuard);
-      window.setTimeout(() => deadGuard.remove(), 7000);
+      document.body.appendChild(this.deadGuard);
+      window.setTimeout(() => this.deadGuard.remove(), 7000);
       this.delete();
     }, 1000);
   };
@@ -522,5 +567,24 @@ export class Guard extends Movable {
     if (!this.element) return;
     this.element.style.left = this.x + 'px';
     this.element.style.top = this.y + 'px';
+  }
+}
+
+class Guard2 extends Guard {
+  constructor(x: number,
+    y: number,
+    rallyPoint: Point,
+    tower: BarakTower,
+    public id: number) {
+    super(x,
+      y,
+      rallyPoint,
+      tower,
+      id)
+    this.hp = 50;
+    this.maxHp = this.hp;
+    this.minDmg =  3;
+    this.maxDmg = 5;
+    this.sightRadius =60
   }
 }

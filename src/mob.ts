@@ -57,7 +57,7 @@ export class Mob extends Movable {
   spriteHeight = 30; // Высота каждого спрайта в изображении
   animationFrame = 0;
   lastFrame = 0;
-  drawInterval = 10;
+  drawInterval = 90;
 
   moveRightImg = new Image();
 
@@ -168,7 +168,7 @@ export class Mob extends Movable {
 
   // Функция отрисовки анимации
   draw = () => {
-    const canDraw = Date.now() - this.lastFrame > this.attackSpeed / this.drawInterval;
+    const canDraw = Date.now() - this.lastFrame > this.drawInterval;
     if(this.state === State.Dead) return;
     if (canDraw) {
       const { img, frameSeq } = this.getAnimationData(
@@ -256,11 +256,11 @@ export class Mob extends Movable {
   freeze() {
     this.freezePoint++;
     this.speed /= 2;
-    // this.drawInterval /= 2;
+    this.drawInterval *= 2;
     setTimeout(() => {
       this.freezePoint--;
       this.speed *= 2;
-      // this.drawInterval *= 2;
+      this.drawInterval /= 2;
     }, 3000);
     //this.speed = 0
   }
@@ -311,7 +311,7 @@ export class Mob extends Movable {
       document.body.appendChild(this.deadMob);
       window.setTimeout(() => this.deadMob.remove(), 5000);
       this.die();
-    }, this.attackSpeed / this.drawInterval * this.dyingSequence.length);
+    },  this.drawInterval * this.dyingSequence.length);
   };
 
   die() {
@@ -374,7 +374,7 @@ export class Orc extends Mob{
 export class Wolf extends Mob{
   constructor(road: RoadPoints){
     super(road);
-  this.hp = 50;
+  this.hp = 20;
   this.maxHP = this.hp
   this.minDmg = 2;
   this.maxDmg = 4;
