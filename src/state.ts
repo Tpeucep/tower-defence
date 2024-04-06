@@ -255,7 +255,7 @@ export class GameState {
   };
 
   public draw =(ctx:CanvasRenderingContext2D ,img: HTMLImageElement, cw: number, ch:number, frameSeq: number[], animationFrame: number) =>{
-
+    if(!ctx) return;
     const frameIndex = frameSeq[animationFrame];
     ctx.clearRect(0, 0, cw, ch);
     console.log('===', frameIndex, animationFrame);

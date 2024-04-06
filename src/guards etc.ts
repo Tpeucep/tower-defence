@@ -25,22 +25,6 @@ interface AnimData {
   frameSeq: number[];
 }
 
-// const guardMoveImg = new Image();
-// guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png';
-
-// const guardFightImg = new Image();
-// guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
-
-// const guardDyingImg = new Image();
-// guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
-
-// const deadGuard = new Image();
-// deadGuard.style.pointerEvents = 'none';
-
-// const walkSequence: number[] = [0, 1, 2, 3, 4, 5];
-// const fightSequence = [0, 0, 1, 1, 2, 2];
-// const idleSequence = [0];
-// const dyingSequence = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4];
 
 export class Rekrut extends Movable {
   public isInFight = false;
@@ -328,7 +312,7 @@ export class Guard extends Movable {
   spriteHeight = 30; // Высота каждого спрайта в изображении
   animationFrame = 0;
   lastFrame = 0;
-  drawInterval = 10;
+  drawInterval = 100;
 
   direction: Direction.Left | Direction.Right = Direction.Right;
   state = State.Moving;
@@ -429,7 +413,7 @@ export class Guard extends Movable {
   }
 
   draw = () => {
-    const canDraw = Date.now() - this.lastFrame > this.attackSpeed / this.drawInterval;
+    const canDraw = Date.now() - this.lastFrame >  this.drawInterval;
     if (canDraw) {
       const { img, frameSeq } = this.getAnimationData(this.state);
       this.animationFrame = (this.animationFrame + 1) % frameSeq.length; // Переход к следующему спрайту
@@ -491,18 +475,18 @@ export class Guard extends Movable {
   }
 
   fight(target: Mob) {
-    this.state = State.Fighting;
-
+    
     const dx = target.x - this.x;
     if (dx < 0) {
       this.direction = Direction.Left;
     }
-
+    
     const canHit = Date.now() - this.lastHitAt > this.attackSpeed;
     if (canHit && !target.isDead) {
+      this.state = State.Fighting;
       this.lastHitAt = Date.now();
       target.hit(this.randDamage(this.minDmg, this.maxDmg));
-    }
+    } else this.state = State.Idle
   }
 
   setRallyPoint(point: Point) {
@@ -570,7 +554,7 @@ export class Guard extends Movable {
   }
 }
 
-class Guard2 extends Guard {
+export class Guard2 extends Guard {
   constructor(x: number,
     y: number,
     rallyPoint: Point,
@@ -585,6 +569,10 @@ class Guard2 extends Guard {
     this.maxHp = this.hp;
     this.minDmg =  3;
     this.maxDmg = 5;
-    this.sightRadius =60
+    this.sightRadius = 60;
+    this.guardFightImg.src = 'https://i.ibb.co/z73cVKq/solider-Attack.png';
+    this.guardMoveImg.src ='https://i.ibb.co/Lp5zfGp/solider-Move.png'
+    this.guardDyingImg.src ='https://i.ibb.co/y8vFCr4/solider-Die.png';
+    this.deadGuard.src ='https://i.ibb.co/B4WMcHV/Image-919-at-frame-1.png'
   }
 }

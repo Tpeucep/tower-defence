@@ -260,6 +260,7 @@ export class Explosion {
     this.element.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
 
+    // window.setInterval(() => gameState.draw(this.ctx, this.src, this.spriteWidth, this.spriteHeight, this.frameSeq, this.animationFrame), 100);
     window.setInterval(() => this.draw(), 100);
     this.hitArea(dmg);
     audio.play();

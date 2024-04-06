@@ -2,7 +2,7 @@ import { getDistance, mouseY, mouseX } from './App';
 import { gameState } from './state';
 import { Bomb, FireBall, FrostBall } from './fireballs';
 import { Point } from './types';
-import { Guard } from './guards etc';
+import { Guard, Guard2 } from './guards etc';
 import { Basement } from './basement';
 
 import ringSrc from "./assets/ring.png";
@@ -561,7 +561,7 @@ class BarakTower2 extends BarakTower{
     // console.log('ids', ids);
 
     for (let i = 0; i < ids.length; i++) {
-      const guard = new Guard(this.x, this.y, closestPoint, this, ids[i]);
+      const guard = new Guard2(this.x, this.y, closestPoint, this, ids[i]);
       // console.log(this.x, this.y);
       this.guardList.push(guard);
       gameState.movables.push(guard);

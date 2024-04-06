@@ -274,15 +274,15 @@ export class Mob extends Movable {
 
   fight = (enemy: Guard | Rekrut) => {
     // console.log(damage);
-    this.state = State.Fighting;
-
+    
     const dx = this.x - enemy.x;
     if (dx > 0) {
       this.direction = Direction.Left;
     }
-
+    
     const canHit = Date.now() - this.lastHitAt > this.attackSpeed;
     if (canHit) {
+      this.state = State.Fighting;
       const distance = Math.sqrt(
         Math.pow(enemy.x - this.x, 2) + Math.pow(enemy.y - this.y, 2)
       );
@@ -290,7 +290,7 @@ export class Mob extends Movable {
         this.lastHitAt = Date.now();
         enemy.hit(this.randDamage(this.minDmg, this.maxDmg));
       }
-    }
+    } 
   };
 
   kill = () => {
@@ -350,10 +350,10 @@ export class Mob extends Movable {
 export class Orc extends Mob{
   constructor(road: RoadPoints){
     super(road);
-    this.hp = 20;
+    this.hp = 50;
     this.maxHP = this.hp
-    this.minDmg = 2;
-    this.maxDmg = 5;
+    this.minDmg = 4;
+    this.maxDmg = 6;
     this.cost = 10;
     this.speed = 20
     this.attackSpeed = 1700;
@@ -381,6 +381,7 @@ export class Wolf extends Mob{
   this.cost = 5;
   this.speed = 55
   this.attackSpeed = 1100;
+  this.idleSequence =[0]
   this.moveRightImg.src = 'https://i.ibb.co/BTXwKmv/wolf-Right2.png'
   this.horizontalWalkSequence =[0,1,2,3,4];
   // this.horizontalWalkSequence =[0,1,2,3,4,5,6,7];

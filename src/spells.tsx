@@ -67,13 +67,14 @@ export const Spells: FC = () => {
       }
 
       delete(){
-        console.log(this.x, this.y)
+        console.log('delete')
+        this.canva.remove()
         document.body.removeEventListener('mousemove', this.updateFrblCrds);
       }
   }
   const SetUp = () => {
     if (gameState.gameRunning) {
-      const canCast = Date.now() - gameState.lastRainAt > 20;
+      const canCast = Date.now() - gameState.lastRainAt > 200;
       if (canCast) {
         document.body.style.cursor = 'none';
         
