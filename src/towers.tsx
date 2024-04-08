@@ -62,7 +62,7 @@ export class Tower {
     this.menuSell.src = 'https://i.ibb.co/n7J5JVy/Image-474-at-frame-1.png';
     this.menuSell.addEventListener('click', this.sell);
     this.menuSell.className = 'menuSell';
-    this.menuSell.style.top = this.img.height + 'px'
+    this.menuSell.style.top = 80 + 'px'
     this.menu.appendChild(this.menuSell);
 
     this.menu.appendChild(this.menuRing);
@@ -265,17 +265,26 @@ export class BombTower extends Tower {
     super(x, y);
     this.x;
     this.y;
+    this.upgradeCost = 220;
+    this.sellCost = 85;
     this.attackSpeed = 2500
     this.damage = 8
     this.radius = 100;
     this.img.src = 'https://i.ibb.co/5jm0fN9/Image-246-at-frame-1.png';
     this.audio = new Audio();
+    this.menu.style.top = -10 + 'px'
     // this.audio.muted = true
     this.audio.src =
       'https://audio.buzzsprout.com/a09dv2jfild2q9szwny8ymo0b3g9?response-content-disposition=inline&';
 
     this.render();
   }
+
+  upgrade =() => {
+    super.upgrade()
+    this.tier2Tower = new BombTower2(this.x, this.y)
+  }
+
   public update = () => {
     const towerCenterX = this.x;
     const towerCenterY = this.y;
@@ -310,7 +319,7 @@ export class BombTower extends Tower {
 class BombTower2 extends BombTower {
   constructor(x: number, y: number) {
     super(x, y);
-    this.damage = 10;
+    this.damage = 14;
     this.radius = 115;
     this.img.src = 'https://i.ibb.co/3Rh2y63/Image-297-at-frame-1.png'
     this.sellCost = 130;
@@ -331,6 +340,7 @@ export class BarakTower extends Tower {
   public active = true;
   public guardList: Guard[] = [];
   mobRadiusPoint: HTMLDivElement;
+  markerSign: HTMLImageElement;
   constructor(x: number, y: number) {
     super(x, y);
     this.x;
@@ -347,6 +357,16 @@ export class BarakTower extends Tower {
     // this.towerRadius.style.display = 'none';
     this.towerRadius.style.border = 'solid aqua';
     this.towerRadius.className = 'radius';
+
+    this.menu.style.top = 5 + 'px';
+
+    this.markerSign = document.createElement('img');
+    this.markerSign.src = 'https://i.ibb.co/fxXRt6q/Image-476-at-frame-1.png'
+    this.markerSign.className ='menu';
+    this.markerSign.style.left = 67 + 'px'
+    this.markerSign.style.top = 50 + 'px'
+    this.menu.appendChild(this.markerSign);
+
     this.mobRadiusPoint = document.createElement('div');
     this.mobRadiusPoint.className = 'point';
     this.towerRadius.addEventListener('click', (e) => {
@@ -486,9 +506,10 @@ export class BarakTower extends Tower {
   }
 
   openRadius = () => {
+    this.closeMenu()
     this.towerElement.appendChild(this.towerRadius);
     // console.log(this.towerRadius);
-    this.towerElement.removeEventListener('click', this.openRadius);
+    this.markerSign.removeEventListener('click', this.openRadius);
     window.setTimeout(() => {
       document.body.addEventListener('click', this.closeRadius);
     }, 100);
@@ -499,7 +520,7 @@ export class BarakTower extends Tower {
     // console.log('phase1');
     document.body.removeEventListener('click', this.closeRadius);
     window.setTimeout(() => {
-      this.towerElement.addEventListener('click', this.openRadius);
+      this.markerSign.addEventListener('click', this.openRadius);
     }, 100);
   };
   reset() {

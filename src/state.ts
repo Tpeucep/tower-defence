@@ -12,7 +12,7 @@ export const mapConfigs: MapConfig[] = [
     id: 0,
     img: 'https://i.ibb.co/SRY5MHh/Image-5-at-frame-1.png',
     song: 'https://audio.buzzsprout.com/8tpu5wtccnaylc7t7g271t5tkkfa?response-content-disposition=inline&',
-    gold: 100,
+    gold: 200,
     roads: [
       {
         points: [

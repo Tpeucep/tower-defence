@@ -252,10 +252,10 @@ body {
 }
 .menuUpgrd{
   position: absolute;
-  left: 35px;
+  left: 28px;
   color: gold;
   z-index: 1;
-  top: -3px;
+  top: -5px;
 }
 .menuUpgrdImg{
   position: absolute;
@@ -266,14 +266,13 @@ body {
 }
 .menuRing{
   position: absolute;
-    top: -34px;
-    left: -10px;
+    top: -40px;
+    left: -17px;
     z-index: -1;
 }
 .menuSell{
   position: absolute;
-  top: 80px;
-  left: 30px;
+  left: 25px;
 }
 .rotate{
   left: 0;
