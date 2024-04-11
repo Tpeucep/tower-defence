@@ -229,7 +229,7 @@ export class Mob extends Movable {
     if (this.currentPointIndex >= this.points.points.length - 1) {
       if (gameState.gameMap) {
         gameState.gameMap.hitCastle(this.maxDmg);
-        if (gameState.gameMap.castle.hp != 0) gameState.checkSwitch();
+        if (gameState.hp != 0) gameState.checkSwitch();
       }
       this.die();
     }

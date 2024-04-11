@@ -37,19 +37,18 @@ export class Tower {
     this.img.draggable = false;
 
     this.menu = document.createElement('div');
-    this.menu.className = 'menu'
-
+    this.menu.className = 'menu';
 
     this.menuUpgrade = document.createElement('div');
     // this.menuUpgrade.className ='menuUpgrade';
     this.menuUpgrade.innerHTML = this.upgradeCost.toString();
     this.menu.appendChild(this.menuUpgrade);
-    this.menuUpgrade.className = 'menuUpgrd'
-    this.menuUpgradeImg = document.createElement('img')
+    this.menuUpgrade.className = 'menuUpgrd';
+    this.menuUpgradeImg = document.createElement('img');
     this.menuUpgradeImg.src = 'https://i.ibb.co/qkN4zSR/Image-477-at-frame-1.png';
-    this.menuUpgradeImg.className = 'menuUpgrdImg'
+    this.menuUpgradeImg.className = 'menuUpgrdImg';
     if (gameState.gold < this.upgradeCost) this.menuUpgradeImg.style.filter = 'grayscale(1)';
-    this.menuUpgrade.appendChild(this.menuUpgradeImg)
+    this.menuUpgrade.appendChild(this.menuUpgradeImg);
 
 
     this.menuRing = document.createElement('img');
@@ -109,17 +108,17 @@ export class Tower {
   }
 
   openMenu = () => {
-    console.log('open')
+    if(!gameState.gameRunning) return;
+    console.log('open');
     this.towerElement.appendChild(this.menu);
     this.img.removeEventListener('click', this.openMenu);
     window.setTimeout(() => {
       document.body.addEventListener('click', this.closeMenu);
     }, 100);
-
   }
 
   closeMenu = () => {
-    console.log('close')
+    console.log('close');
     this.menu.remove();
     document.body.removeEventListener('click', this.closeMenu);
     window.setTimeout(() => {
@@ -266,7 +265,9 @@ export class BombTower extends Tower {
     this.x;
     this.y;
     this.upgradeCost = 220;
-    this.sellCost = 85;
+    this.menuUpgrade.innerHTML =this.upgradeCost.toString();
+    this.menuUpgrade.appendChild(this.menuUpgradeImg);
+    this.sellCost =185;
     this.attackSpeed = 2500
     this.damage = 8
     this.radius = 100;
@@ -414,16 +415,6 @@ export class BarakTower extends Tower {
       }
     }
     if (!closestPointOnRoad) return;
-    // ctx.lineWidth = 2;
-    // ctx.strokeStyle = 'green';
-    // ctx.beginPath();
-    // // ctx.moveTo(this.x, this.y);
-    // ctx.moveTo(0, 0);
-    // ctx.lineTo(closestPointOnRoad.x, closestPointOnRoad.y);
-    // ctx.stroke();
-    // console.log(
-    //   `Ближайшая точка на дороге: x: ${closestPointOnRoad.x}, y: ${closestPointOnRoad.y}`
-    // );
     for (let i = 0; i < this.guardCountLimit; i++) {
       this.createGuardsAtPoint(closestPointOnRoad);
       this.guardCount++;

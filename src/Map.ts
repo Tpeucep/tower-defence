@@ -1,13 +1,11 @@
 import { Basement } from './basement';
-import { Castle, Cave } from './Start-End';
 import { gameState } from './state';
+import { BarakTower, BombTower, FreezeTower, Tower } from './towers';
 import { MapConfig, TowerType } from './types';
 
 export class Map {
   public audio: HTMLAudioElement;
   img: HTMLImageElement;
-  public castle: Castle;
-  cave: Cave;
   constructor(private config: MapConfig) {
     this.img = document.createElement('img');
     this.img.className = 'map';
@@ -22,8 +20,6 @@ export class Map {
     const start = config.roads[0].points[0];
     const end = config.roads[0].points[config.roads[0].points.length - 1];
 
-    this.castle = new Castle(end.x, end.y);
-    this.cave = new Cave(start.x, start.y);
 
     this.audio = new Audio();
     this.audio.src = config.song
@@ -40,25 +36,35 @@ export class Map {
         case TowerType.Base:
           gameState.basements.push(new Basement(tower.x, tower.y));
           break;
+        case TowerType.Barracks:
+          gameState.towers.push(new BarakTower(tower.x, tower.y));
+          break;
+        case TowerType.Fire:
+          gameState.towers.push(new Tower(tower.x, tower.y));
+          break;
+        case TowerType.Freeze:
+          gameState.towers.push(new FreezeTower(tower.x, tower.y));
+          break;
+        case TowerType.Bomb:
+          gameState.towers.push(new BombTower(tower.x, tower.y));
+          break;
       }
     });
   }
   hitCastle(damage: number) {
-    this.castle.hp -= damage;
+    gameState.hp -= damage;
 
-    if (this.castle.hp <= 0) {
+    if (gameState.hp <= 0) {
       this.reset();
       gameState.gameRunning = false;
       gameState.loseMap();
     }
-    let decade = this.castle.hp / this.castle.maxHp;
-    this.castle.drawHP(decade);
   }
+
   reset() {
-    this.castle.delete();
-    this.cave.delete();
     this.img.remove();
     this.audio.pause()
     this.audio.currentTime = 0
+    gameState.hp = 25;
   }
 }

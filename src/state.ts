@@ -6,6 +6,7 @@ import { Mob, Orc, Wolf } from './mob';
 import { Movable } from './movable';
 import { Tower } from './towers';
 import { IFireball, MapConfig, MobType, SpellType, TowerType } from './types';
+import { GlobalMap } from './globalMap';
 
 export const mapConfigs: MapConfig[] = [
   {
@@ -34,7 +35,7 @@ export const mapConfigs: MapConfig[] = [
         { x: 380, y: 415 },
         { x: 480, y: 440 },
         { x: 590, y: 350 },
-        { x: 700, y: 330 },
+        { x: 700, y: 340 },
       ]}
     ],
     towers: [
@@ -45,8 +46,8 @@ export const mapConfigs: MapConfig[] = [
     vawes: [
       { time: 1, mob: MobType.Wolf, road: 0 },
       // { time: 3, mob: MobType.Goblin },
-      { time: 3, mob: MobType.Goblin, road: 0 },
-      { time: 7, mob: MobType.Orc, road: 0 },
+      // { time: 3, mob: MobType.Goblin, road: 0 },
+      // { time: 7, mob: MobType.Orc, road: 0 },
       ////
       // { time: 13, mob: MobType.Goblin },
       // { time: 15, mob: MobType.Goblin },
@@ -63,46 +64,60 @@ export const mapConfigs: MapConfig[] = [
       // { time: 39, mob: MobType.Goblin },
       // { time: 41, mob: MobType.Orc },
       // { time: 43, mob: MobType.Goblin },
-      { time: 4300, mob: MobType.Goblin, road:0 },
+      // { time: 4300, mob: MobType.Goblin, road:0 },
     ],
   },
   {
     id: 1,
-    img: 'https://i.ibb.co/SRY5MHh/Image-5-at-frame-1.png',
+    img: 'https://i.ibb.co/NpGWwY2/Image-519-at-frame-1.png',
     song: 'https://audio.buzzsprout.com/0r0r4hqrlydq1si4n3ypqmzr03va?response-content-disposition=inline&',
     gold: 100,
     roads: [
       {
         points: [
-          { x: 325, y: -35 },
-          { x: 325, y: 200 },
-          { x: 290, y: 240 },
-          { x: 170, y: 290 },
-          { x: 170, y: 360 },
-          { x: 220, y: 420 },
-          { x: 380, y: 415 },
-          { x: 480, y: 440 },
-          { x: 590, y: 350 },
-          { x: 700, y: 330 },
+          { x: 300, y: 625 },
+          { x: 310, y: 475 },
+          { x: 350, y: 455 },
+          { x: 490, y: 445 },
+          { x: 580, y: 425 },
+          { x: 630, y: 325 },
+          { x: 600, y: 225 },
+          { x: 500, y: 125 },
+          { x: 400, y: 75 },
+          { x: 400, y: -35 },
         ]
       },
+      { points:[
+        { x: 300, y: 625 },
+        { x: 300, y: 455 },
+        { x: 120, y: 285 },
+        { x: 120, y: 225 },
+        { x: 140, y: 155 },
+        { x: 220, y: 105 },
+        { x: 340, y: 85 },
+        { x: 380, y: 75 },
+        { x: 400, y: -35 },
+      ]}
     ],
     towers: [
-      { x: 220, y: 185, type: TowerType.Base },
-      { x: 245, y: 340, type: TowerType.Base },
-      { x: 100, y: 315, type: TowerType.Base },
+      { x: 330, y: 390, type: TowerType.Base },
+      { x: 435, y: 515, type: TowerType.Base },
+      { x: 475, y: 385, type: TowerType.Base },
+      { x: 210, y: 285, type: TowerType.Base },
+      { x: 70, y: 355, type: TowerType.Base },
+      // { x: 370, y: 405, type: TowerType.Fire },
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
-      { time: 1, mob: MobType.Goblin, road: 0 },
+      { time: 1, mob: MobType.Goblin, road: 1 },
       // { time: 3, mob: MobType.Goblin },
       ////
-      { time: 7, mob: MobType.Goblin, road: 0 },
+      { time: 7, mob: MobType.Goblin, road: 1 },
       // { time: 8, mob: MobType.Goblin },
       // { time: 9, mob: MobType.Goblin },
       // { time: 10, mob: MobType.Goblin },
       // ////
-      // { time: 13, mob: MobType.Goblin },
+      { time: 13, mob: MobType.Goblin, road: 1 },
       // { time: 15, mob: MobType.Goblin },
       // { time: 17, mob: MobType.Goblin },
       // { time: 19, mob: MobType.Goblin },
@@ -132,7 +147,8 @@ export const mapConfigs: MapConfig[] = [
     song: 'https://audio.buzzsprout.com/zkklqymtoh5y9dvubnagmd8ld0bd?response-content-disposition=inline&',
     gold: 100,
     roads: [{
-      points: [{ x: 730, y: 205 },
+      points: [
+      { x: 730, y: 205 },
       { x: 730, y: 210 },
       { x: 525, y: 210 },
       { x: 485, y: 90 },
@@ -164,6 +180,8 @@ export const mapConfigs: MapConfig[] = [
 export class GameState {
   @observable
   public gold = 0;
+  @observable
+  public hp = 25;
   @observable
   public mapFinished = false;
   @observable
@@ -254,29 +272,6 @@ export class GameState {
     if (this.mapConfig) this.currentId = this.mapConfig.id;
   };
 
-  public draw =(ctx:CanvasRenderingContext2D ,img: HTMLImageElement, cw: number, ch:number, frameSeq: number[], animationFrame: number) =>{
-    if(!ctx) return;
-    const frameIndex = frameSeq[animationFrame];
-    ctx.clearRect(0, 0, cw, ch);
-    console.log('===', frameIndex, animationFrame);
-
-    ctx.drawImage(
-      img,
-      frameIndex * cw,
-      0,
-      cw,
-      ch,
-      0,
-      0,
-      cw,
-      ch,
-    ); // Отрисовка текущего спрайта
-    animationFrame = (animationFrame + 1) % frameSeq.length; // Переход к следующему спрайту
-    ctx.resetTransform();
-    // this.ctx.drawImage(img, 0, 0);
-    return animationFrame;
-  } 
-
   public checkSwitch = () => {
     if (!this.mapConfig) return;
     if (!this.gameMap) return;
@@ -353,4 +348,5 @@ export class GameState {
 }
 
 export const gameState = new GameState();
-gameState.createMap(0);
+// gameState.createMap(1);
+const globalMap = new GlobalMap()

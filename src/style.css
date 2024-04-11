@@ -105,17 +105,6 @@ body {
 .guard > canvas {
   transform: translate(-50%, calc(-100% + 5px));
 }
-.guard:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 2px;
-  height: 2px;
-  background: red;
-  border-radius: 1px;
-  transform: translate(-50%, -50%);
-}
 .gold {
   z-index: 2;
   position: absolute;
@@ -123,6 +112,18 @@ body {
   font-size: large;
   justify-content: center;
   border: thick double rgba(37, 33, 6, 0.8);
+  border-radius: 5px;
+}
+
+.hp{
+  left: 625px;
+  top: 0px;
+  z-index: 2;
+  position: absolute;
+  font-size: large;
+  color: rgb(255, 217, 0);
+  justify-content: center;
+  border: thick double rgba(98, 86, 8, 0.8);
   border-radius: 5px;
 }
 
@@ -163,6 +164,17 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.tower:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  background: red;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
 
 .radius {
   z-index: 1;
