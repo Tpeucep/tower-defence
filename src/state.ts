@@ -45,7 +45,6 @@ export const mapConfigs: MapConfig[] = [
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
       { time: 1, mob: MobType.Wolf, road: 0 },
-      // { time: 3, mob: MobType.Goblin },
       { time: 3, mob: MobType.Goblin, road: 0 },
       { time: 7, mob: MobType.Orc, road: 0 },
       ////
