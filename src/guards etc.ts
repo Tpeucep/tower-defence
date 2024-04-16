@@ -5,6 +5,15 @@ import { gameState } from './state';
 import { BarakTower } from './towers';
 import { Point } from './types';
 
+import guardMove from "./assets/guards/guardsMove.png";
+import guardFight from "./assets/guards/guardsAttack.png";
+import guardDie from "./assets/guards/guardDying.png";
+import deadGuard from "./assets/guards/deadGuard.png";
+import solderAttack from "./assets/guards/soliderAttack.png";
+import solderMove from "./assets/guards/soliderMove.png";
+import solderDie from "./assets/guards/soliderDie.png";
+import deadSolder from "./assets/guards/deadSolder.png";
+
 enum Direction {
   Left = 'left',
   Right = 'right',
@@ -79,7 +88,7 @@ export class Rekrut extends Movable {
     document.body.appendChild(this.element);
 
     this.moveTo(x, y);
-    this.hpBar = new HpBar(this.element, 30, 2, '0', '-100%');
+    this.hpBar = new HpBar(this.element, 30, 2, '0', (-this.spriteHeight).toString());
 
     this.canvas = document.createElement('canvas');
     this.canvas.className = 'myCanvas';
@@ -89,16 +98,16 @@ export class Rekrut extends Movable {
     this.ctx = this.canvas.getContext('2d')!;
 
     this.guardMoveImg = document.createElement('img')
-    this.guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png'
+    this.guardMoveImg.src = guardMove;
 
     this.guardFightImg = document.createElement('img')
-    this.guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
+    this.guardFightImg.src = guardFight;
     
     this.guardDyingImg = document.createElement('img')
-    this.guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
+    this.guardDyingImg.src = guardDie;
     
     this.deadGuard = document.createElement('img')
-    this.deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
+    this.deadGuard.src = deadGuard;
     this.deadGuard.style.pointerEvents = 'none';
     this.deadGuard.className = 'dead';
 
@@ -338,7 +347,7 @@ export class Guard extends Movable {
     document.body.appendChild(this.element);
     this.maxHp = this.hp;
 
-    this.hpBar = new HpBar(this.element, 30, 2, '0', '-100%');
+    this.hpBar = new HpBar(this.element, 30, 2, '0', (-this.spriteHeight).toString());
     this.setRallyPoint(rallyPoint);
 
     this.canvas = document.createElement('canvas');
@@ -570,9 +579,9 @@ export class Guard2 extends Guard {
     this.minDmg =  3;
     this.maxDmg = 5;
     this.sightRadius = 60;
-    this.guardFightImg.src = 'https://i.ibb.co/z73cVKq/solider-Attack.png';
-    this.guardMoveImg.src ='https://i.ibb.co/Lp5zfGp/solider-Move.png'
-    this.guardDyingImg.src ='https://i.ibb.co/y8vFCr4/solider-Die.png';
-    this.deadGuard.src ='https://i.ibb.co/B4WMcHV/Image-919-at-frame-1.png'
+    this.guardFightImg.src = solderAttack;
+    this.guardMoveImg.src =solderMove;
+    this.guardDyingImg.src =solderDie;
+    this.deadGuard.src =deadSolder;
   }
 }

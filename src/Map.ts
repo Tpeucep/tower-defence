@@ -20,7 +20,6 @@ export class Map {
     const start = config.roads[0].points[0];
     const end = config.roads[0].points[config.roads[0].points.length - 1];
 
-
     this.audio = new Audio();
     this.audio.src = config.song
     this.audio.volume = 0.5;

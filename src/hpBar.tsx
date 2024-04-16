@@ -7,7 +7,7 @@ export class HpBar {
     // this.hpBar.style.top = -20 + 'px';
 
     this.hpBar.style.left = x ;
-    this.hpBar.style.top = y;
+    this.hpBar.style.top = y + 'px';
     this.hpBar.style.width = width + 'px';
     this.hpBar.style.height = height + 'px';
     this.hpBar.className = 'hpBar';

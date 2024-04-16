@@ -46,8 +46,8 @@ export const mapConfigs: MapConfig[] = [
     vawes: [
       { time: 1, mob: MobType.Wolf, road: 0 },
       // { time: 3, mob: MobType.Goblin },
-      // { time: 3, mob: MobType.Goblin, road: 0 },
-      // { time: 7, mob: MobType.Orc, road: 0 },
+      { time: 3, mob: MobType.Goblin, road: 0 },
+      { time: 7, mob: MobType.Orc, road: 0 },
       ////
       // { time: 13, mob: MobType.Goblin },
       // { time: 15, mob: MobType.Goblin },
@@ -188,9 +188,10 @@ export class GameState {
   public lastMapFinished = false;
   @observable
   public mapFailed = false;
-
+  
   public gameRunning = true;
   public mapConfig: MapConfig | undefined;
+  @observable
   public gameMap: Map | undefined;
 
   public monsters: Mob[] = [];
@@ -213,6 +214,8 @@ export class GameState {
 
   public resetMap = () => {
     console.log('resetMap');
+
+    this.mapConfig = undefined;
 
     const monstersCopy = this.monsters.slice();
     monstersCopy.forEach((monster) => monster.die());
@@ -238,7 +241,6 @@ export class GameState {
     if (this.gameMap) this.gameMap.reset();
 
     this.gameMap = undefined;
-    this.mapConfig = undefined;
     this.gameRunning = false;
     this.gameTime = 0;
     this.gold = 0;
@@ -246,6 +248,7 @@ export class GameState {
 
   public createMap = (index: number) => {
     this.resetMap();
+    this.gameTime = 0;
     this.mapFailed = false;
     this.mapFinished = false;
     this.gameMap = new Map(mapConfigs[index]);
@@ -349,4 +352,4 @@ export class GameState {
 
 export const gameState = new GameState();
 // gameState.createMap(1);
-const globalMap = new GlobalMap()
+export const globalMap = new GlobalMap()

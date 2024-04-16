@@ -3,8 +3,15 @@ import { IFireball } from './types';
 import { Movable } from './movable';
 import { gameState } from './state';
 
+import smalExpl from "./assets/fireballs/smallExpl.png";
+import frbl from "./assets/fireballs/fireball.png";
+import frstbl from "./assets/fireballs/frostBall.png";
+import explosion from "./assets/fireballs/explosion.png";
+import meteor from "./assets/fireballs/meteor.png";
+import bomb from "./assets/fireballs/bomb1.png";
+
 const smallExplosion = new Image();
-smallExplosion.src = 'https://i.ibb.co/PT7sJtL/small-Explosion.png';
+smallExplosion.src = smalExpl;
 
 export class FireBall implements IFireball {
   ballElement: HTMLImageElement;
@@ -26,7 +33,7 @@ export class FireBall implements IFireball {
     this.y = startY;
     this.ballElement = document.createElement('img');
     this.ballElement.className = 'bullet';
-    this.ballElement.src = 'https://i.ibb.co/vzmM5Jk/Image-1438-at-frame-1.png';
+    this.ballElement.src = frbl;
     this.ballElement.draggable = false;
     this.ballElement.style.width = 40 + 'px';
     this.ballElement.style.left = startX + 'px';
@@ -77,7 +84,7 @@ export class FrostBall extends FireBall {
   constructor(x: number, y: number, dmg: number, target: Mob) {
     super(x, y, dmg, target);
     this.dmg = 1;
-    this.ballElement.src = 'https://i.ibb.co/nL7Zq7M/image.png';
+    this.ballElement.src = frstbl;
   }
   onHit() {
     this.delete();
@@ -86,8 +93,7 @@ export class FrostBall extends FireBall {
   }
 }
 export class FireBomb extends Movable {
-  explosionSrc: string =
-    'https://stackblitz.com/storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBOHh3Q3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--846b3aaaa3de073b9d59561879c0ddff832bdc96/Image%202363%20at%20frame%201.png';
+  explosionSrc: string = explosion;
   radius: number = 30;
   dmg: number = 6;
   srcs: string[] = [];
@@ -101,7 +107,7 @@ export class FireBomb extends Movable {
     this.speed = 400;
     const img = new Image();
     img.className = 'bullet';
-    img.src = 'https://i.ibb.co/17m8837/Image-2353-at-frame-1.png';
+    img.src = meteor;
     this.element = img;
     this.element.style.rotate = '90deg';
     document.body.appendChild(img);
@@ -151,7 +157,7 @@ export class Bomb extends Movable {
     document.body.appendChild(this.element);
     this.element.className = 'bullet';
     this.element.appendChild(img);
-    img.src = 'https://i.ibb.co/jM3LGkF/Image-1470-at-frame-1.png';
+    img.src = bomb;
 
     this.x = startX;
     this.y = startY;

@@ -5,7 +5,18 @@ import { Point } from './types';
 import { Guard, Guard2 } from './guards etc';
 import { Basement } from './basement';
 
-import ringSrc from "./assets/ring.png";
+import ringSrc from "./assets/towers/ring.png";
+import towerImg from "./assets/towers/ring.png";
+import upgrade from "./assets/towers/upgrade.png";
+import sell from "./assets/towers/sell.png";
+import upgradeLock from "./assets/towers/upgradeLocked.png";
+import flag from "./assets/towers/flag.png";
+import bomb from "./assets/towers/bomb1.png";
+import bomb2 from "./assets/towers/bomb2.png";
+import freeze from "./assets/towers/freeze.png";
+import freeze2 from "./assets/towers/freeze2.png";
+import barak1 from "./assets/towers/barak.png";
+import barak2 from "./assets/towers/barak2.png";
 
 export class Tower {
   towerElement: HTMLDivElement;
@@ -33,7 +44,7 @@ export class Tower {
     this.towerElement = document.createElement('div');
     this.img = document.createElement('img');
     this.towerElement.className = 'tower';
-    this.img.src = 'https://i.ibb.co/Hnh20MM/Image-154-at-frame-1.png';
+    this.img.src = towerImg;
     this.img.draggable = false;
 
     this.menu = document.createElement('div');
@@ -45,7 +56,7 @@ export class Tower {
     this.menu.appendChild(this.menuUpgrade);
     this.menuUpgrade.className = 'menuUpgrd';
     this.menuUpgradeImg = document.createElement('img');
-    this.menuUpgradeImg.src = 'https://i.ibb.co/qkN4zSR/Image-477-at-frame-1.png';
+    this.menuUpgradeImg.src = upgrade;
     this.menuUpgradeImg.className = 'menuUpgrdImg';
     if (gameState.gold < this.upgradeCost) this.menuUpgradeImg.style.filter = 'grayscale(1)';
     this.menuUpgrade.appendChild(this.menuUpgradeImg);
@@ -56,9 +67,8 @@ export class Tower {
     this.menuRing.src = ringSrc;
     this.menuRing.className = 'menuRing'
 
-
     this.menuSell = document.createElement('img');
-    this.menuSell.src = 'https://i.ibb.co/n7J5JVy/Image-474-at-frame-1.png';
+    this.menuSell.src = sell;
     this.menuSell.addEventListener('click', this.sell);
     this.menuSell.className = 'menuSell';
     this.menuSell.style.top = 80 + 'px'
@@ -178,7 +188,7 @@ class Tower2 extends Tower {
     this.sellCost = 60;
     this.damage = 5;
     this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+    this.menuUpgradeImg.src =upgradeLock;
   }
   upgrade= () =>{
     this.closeMenu()
@@ -193,8 +203,7 @@ export class FreezeTower extends Tower {
     this.damage = 5;
     this.radius = 100;
     this.attackSpeed = 500;
-    this.img.src =
-      'https://stackblitz.com/storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNEF2Q3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--eb890839916c483c01d6b8825af970716dcc8caf/Image%2098%20at%20frame%201.png';
+    this.img.src = freeze;
     this.render();
   }
 
@@ -249,9 +258,9 @@ class FreezeTower2 extends FreezeTower {
     this.frezeLevel = 2;
     this.attackSpeed = 800;
     this.sellCost = 80;
-    this.img.src = 'https://i.ibb.co/DWh2n7Z/Image-88-at-frame-1.png'
+    this.img.src = freeze2;
     this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+    this.menuUpgradeImg.src =upgradeLock;
   }
   upgrade= () =>{
     this.closeMenu()
@@ -271,7 +280,7 @@ export class BombTower extends Tower {
     this.attackSpeed = 2500
     this.damage = 8
     this.radius = 100;
-    this.img.src = 'https://i.ibb.co/5jm0fN9/Image-246-at-frame-1.png';
+    this.img.src = bomb;
     this.audio = new Audio();
     this.menu.style.top = -10 + 'px'
     // this.audio.muted = true
@@ -322,11 +331,10 @@ class BombTower2 extends BombTower {
     super(x, y);
     this.damage = 14;
     this.radius = 115;
-    this.img.src = 'https://i.ibb.co/3Rh2y63/Image-297-at-frame-1.png'
+    this.img.src = bomb2;
     this.sellCost = 130;
-    this.img.src = 'https://i.ibb.co/DWh2n7Z/Image-88-at-frame-1.png'
     this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+    this.menuUpgradeImg.src =upgradeLock;
   }
   upgrade= () =>{
     this.closeMenu()
@@ -348,7 +356,7 @@ export class BarakTower extends Tower {
     this.y;
     this.rallyPoint = { x: x, y: y };
     this.radius = 100;
-    this.img.src = 'https://i.ibb.co/LNWNW5F/Image-27-at-frame-1.png';
+    this.img.src = barak1;
     // this.img.style.position = 'absolute';
     this.towerRadius = document.createElement('div');
     this.towerElement.appendChild(this.towerRadius);
@@ -362,7 +370,7 @@ export class BarakTower extends Tower {
     this.menu.style.top = 5 + 'px';
 
     this.markerSign = document.createElement('img');
-    this.markerSign.src = 'https://i.ibb.co/fxXRt6q/Image-476-at-frame-1.png'
+    this.markerSign.src = flag;
     this.markerSign.className ='menu';
     this.markerSign.style.left = 67 + 'px'
     this.markerSign.style.top = 50 + 'px'
@@ -548,11 +556,10 @@ class BarakTower2 extends BarakTower{
     super(x, y);
     // this.damage = 10;
     this.radius = 115;
-    this.img.src = 'https://i.ibb.co/vQ5MdtW/Image-53-at-frame-1.png'
+    this.img.src = barak2;
     this.sellCost = 70;
-    this.img.src = 'https://i.ibb.co/DWh2n7Z/Image-88-at-frame-1.png'
     this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src ='https://i.ibb.co/zQBbWJq/Image-486-at-frame-1.png';
+    this.menuUpgradeImg.src =upgradeLock;
   }
   upgrade= () =>{
     this.closeMenu()
