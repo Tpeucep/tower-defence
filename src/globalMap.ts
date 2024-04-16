@@ -36,7 +36,7 @@ export class GlobalMap {
     this.audio.muted = true;
     this.mapImg.onload = () => {
       console.log('play');
-      this.audio.play();
+      // this.audio.play();
     }
 
     this.canvas = document.createElement('canvas');
