@@ -35,7 +35,7 @@ export class GlobalMap {
     this.audio.loop = true;
     this.audio.muted = true;
     this.mapImg.onload = () => {
-      console.log('play');
+      // console.log('play');
       // this.audio.play();
     }
 
@@ -54,7 +54,7 @@ export class GlobalMap {
 
   public createPath=()=>{
 
-    console.log('PATHHHFINDER')
+    // console.log('PATHHHFINDER')
 
     this.ctx.setLineDash([10, 7]);
     this.ctx.beginPath();
@@ -75,9 +75,9 @@ export class GlobalMap {
 
   public deleteMap = () => {
     this.mapImg.remove();
-    console.log('Path' , this.ctx);
+    // console.log('Path' , this.ctx);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    console.log('Cleared Path' , this.ctx);
+    // console.log('Cleared Path' , this.ctx);
   }
 
   public createMap = () => {

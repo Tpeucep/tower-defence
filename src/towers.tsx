@@ -46,6 +46,7 @@ export class Tower {
     this.towerElement.className = 'tower';
     this.img.src = towerImg;
     this.img.draggable = false;
+    console.log(towerImg)
 
     this.menu = document.createElement('div');
     this.menu.className = 'menu';
