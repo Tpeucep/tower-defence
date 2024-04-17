@@ -19,7 +19,7 @@ export const Spells = observer(() => {
 
   const createFireCursor = () => {
     if (gameState.gameRunning) {
-      const canCast = Date.now() - gameState.lastRainAt > 200;
+      const canCast = Date.now() - gameState.lastRainAt > 20000;
       if (canCast) {
         document.body.style.cursor = 'none';
           const f = new Rotate(fireCursor, 105, 65)
@@ -82,7 +82,15 @@ export const Spells = observer(() => {
   };
   const pause = () => {
     gameState.gameRunning = false;
+    window.setTimeout(()=>{
+      // document.body.addEventListener('click',continueGame)
+    },20)
   };
+  
+  const continueGame = () => {
+    gameState.gameRunning = true;
+    document.body.removeEventListener('click', continueGame)
+  }
   
   const map = () => {
     globalMap.createMap()

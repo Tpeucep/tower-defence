@@ -50,6 +50,7 @@ export class Tower {
 
     this.menu = document.createElement('div');
     this.menu.className = 'menu';
+    this.menu.style.left = 7 + "px";
 
     this.menuUpgrade = document.createElement('div');
     // this.menuUpgrade.className ='menuUpgrade';
@@ -94,7 +95,7 @@ export class Tower {
     this.closeMenu()
   }
 
-  upgrade () {
+  upgrade =()=> {
     if (gameState.gold >= this.upgradeCost) {
       gameState.gold -= this.upgradeCost
        this.reset()  /// удаление этой башни
@@ -119,7 +120,7 @@ export class Tower {
   }
 
   openMenu = () => {
-    if(!gameState.gameRunning) return;
+    // if(!gameState.gameRunning) return;
     console.log('open');
     this.towerElement.appendChild(this.menu);
     this.img.removeEventListener('click', this.openMenu);
@@ -191,7 +192,7 @@ class Tower2 extends Tower {
     this.menuUpgrade.innerHTML ='';
     this.menuUpgradeImg.src =upgradeLock;
   }
-  upgrade= () =>{
+  upgrade = () =>{
     this.closeMenu()
   }
 }
@@ -199,6 +200,8 @@ export class FreezeTower extends Tower {
   frezeLevel = 3
   constructor(x: number, y: number) {
     super(x, y);
+    this.menu.style.left = 0 + 'px'
+    this.menu.style.top = -2 + 'px'
     this.x;
     this.y;
     this.damage = 5;
@@ -209,8 +212,12 @@ export class FreezeTower extends Tower {
   }
 
   upgrade =() => {
-    super.upgrade()
-    this.tier2Tower = new FreezeTower2(this.x, this.y)
+    if (gameState.gold >= this.upgradeCost) {
+      gameState.gold -= this.upgradeCost
+       this.reset()  /// удаление этой башни
+       this.tier2Tower = new FreezeTower2(this.x, this.y)
+    }
+    this.closeMenu()
   }
 
   public update = () => {
@@ -283,7 +290,8 @@ export class BombTower extends Tower {
     this.radius = 100;
     this.img.src = bomb;
     this.audio = new Audio();
-    this.menu.style.top = -10 + 'px'
+    this.menu.style.top = -13 + 'px'
+    this.menu.style.left = 2 + 'px'
     // this.audio.muted = true
     this.audio.src =
       'https://audio.buzzsprout.com/a09dv2jfild2q9szwny8ymo0b3g9?response-content-disposition=inline&';
@@ -292,8 +300,12 @@ export class BombTower extends Tower {
   }
 
   upgrade =() => {
-    super.upgrade()
-    this.tier2Tower = new BombTower2(this.x, this.y)
+    if (gameState.gold >= this.upgradeCost) {
+      gameState.gold -= this.upgradeCost
+       this.reset()  /// удаление этой башни
+       this.tier2Tower = new BombTower2(this.x, this.y)
+    }
+    this.closeMenu()
   }
 
   public update = () => {
@@ -368,7 +380,9 @@ export class BarakTower extends Tower {
     this.towerRadius.style.border = 'solid aqua';
     this.towerRadius.className = 'radius';
 
-    this.menu.style.top = 5 + 'px';
+    this.menu.style.top = -10 + 'px';
+    this.menu.style.left = 0 + 'px';
+
 
     this.markerSign = document.createElement('img');
     this.markerSign.src = flag;
@@ -490,9 +504,13 @@ export class BarakTower extends Tower {
   }
   update = () => { }; // ----------НЕ----ТРОГАТЬ----------
 
-  upgrade() {
-    super.upgrade()
-    this.tier2Tower = new BarakTower2(this.x, this.y)
+  upgrade=()=> {
+    if (gameState.gold >= this.upgradeCost) {
+      gameState.gold -= this.upgradeCost
+       this.reset()  /// удаление этой башни
+       this.tier2Tower = new BarakTower2(this.x, this.y)
+      }
+      this.closeMenu()
   }
 
   handleHover() {

@@ -164,7 +164,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.tower:after {
+/* .tower:after {
   content: '';
   position: absolute;
   left: 0;
@@ -174,7 +174,7 @@ body {
   background: red;
   border-radius: 1px;
   transform: translate(-50%, -50%);
-}
+} */
 
 .radius {
   z-index: 1;

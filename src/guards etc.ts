@@ -231,7 +231,7 @@ export class Rekrut extends Movable {
       this.state = State.Fighting;
       this.lastHitAt = Date.now();
       target.hit(this.randDamage(this.minDmg, this.maxDmg));
-    } else this.state = State.Idle;
+    } 
   }
 
   public hit(dmg: number) {
@@ -361,16 +361,16 @@ export class Guard extends Movable {
     this.element.addEventListener('mouseleave', this.onLeave)
 
     this.guardMoveImg = document.createElement('img')
-    this.guardMoveImg.src = 'https://i.ibb.co/nbZ7psL/guards-Move.png'
+    this.guardMoveImg.src = guardMove
 
     this.guardFightImg = document.createElement('img')
-    this.guardFightImg.src = 'https://i.ibb.co/LtsRKm9/guards-Attack.png';
+    this.guardFightImg.src = guardFight;
     
     this.guardDyingImg = document.createElement('img')
-    this.guardDyingImg.src = 'https://i.ibb.co/4pLPRBT/guard-Dying.png';
+    this.guardDyingImg.src = guardDie;
     
     this.deadGuard = document.createElement('img')
-    this.deadGuard.src = 'https://i.ibb.co/L9QTVnn/Image-933-at-frame-1.png';
+    this.deadGuard.src = deadGuard;
     this.deadGuard.style.pointerEvents = 'none';
     this.deadGuard.className = 'dead';
   }
