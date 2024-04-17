@@ -86,17 +86,9 @@ export class Tower {
     this.img.addEventListener('mouseleave', this.onLeave);
     this.img.addEventListener('click', this.openMenu);
   }
-
-  sell = () => {
-    console.log('===sell')
-    gameState.gold += this.sellCost;
-    this.reset();
-    const basement = new Basement(this.x, this.y);
-    this.closeMenu();
-  }
-
+  
   upgrade =()=>  {
-    console.log('===upgrade))')
+    console.log('===upgrade))' , this)
     if (gameState.gold >= this.upgradeCost) {
       gameState.gold -= this.upgradeCost;
       this.reset() ; /// удаление этой башни
@@ -104,6 +96,14 @@ export class Tower {
     }
     this.closeMenu()
   };
+  
+  sell = () => {
+    console.log('===sell')
+    gameState.gold += this.sellCost;
+    this.reset();
+    const basement = new Basement(this.x, this.y);
+    this.closeMenu();
+  }
 
   onHover = () => {
     this.handleHover();
@@ -193,10 +193,11 @@ export class Tower2 extends Tower {
     this.img.src = tower2;
     // this.menuUpgrade.innerHTML ='';
     this.menuUpgradeImg.src = upgradeLock;
+    this.menuUpgradeImg.addEventListener('click', this.closeMenu)
   }
   upgrade = () => {
-    this.closeMenu()
-    console.log('===pizdec((')
+    this.closeMenu();
+    console.log('===DONT UPRGADE!!', this);
     return;
   }
 }
@@ -273,6 +274,7 @@ export class FreezeTower2 extends FreezeTower {
     this.img.src = freeze2;
     // this.menuUpgrade.innerHTML ='';
     this.menuUpgradeImg.src = upgradeLock;
+    this.menuUpgradeImg.addEventListener('click', this.closeMenu)
   }
   upgrade = () => {
     this.closeMenu()
