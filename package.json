@@ -14,9 +14,11 @@
     "mobx": "6.9.0",
     "mobx-react-lite": "3.4.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.1.4",
     "react-scripts": "latest"
   },
   "browserslist": {

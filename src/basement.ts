@@ -1,4 +1,4 @@
-import { BarakTower, BombTower, FreezeTower, Tower } from './towers';
+import { BarakTower, BombTower, FreezeTower, FreezeTower2, Tower, Tower2 } from './towers';
 import { gameState } from './state';
 
 import basementSrc from "./assets/basement/basement.png";
@@ -109,7 +109,7 @@ export class Basement {
     this.basementEl.remove();
     this.closeMenu();
     // console.log(this);
-    const newFireTower = new Tower(this.x, this.y);
+    const newFireTower = new Tower2(this.x, this.y);
     gameState.towers.push(newFireTower);
   };
   createSnowTower = () => {
@@ -121,7 +121,7 @@ export class Basement {
     this.basementEl.remove();
     this.closeMenu();
     // console.log(this);
-    const newFreezeTower = new FreezeTower(this.x, this.y);
+    const newFreezeTower = new FreezeTower2(this.x, this.y);
     gameState.towers.push(newFreezeTower);
   };
   createBarakTower = () => {

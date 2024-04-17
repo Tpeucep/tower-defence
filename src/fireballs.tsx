@@ -83,7 +83,6 @@ export class FireBall implements IFireball {
 export class FrostBall extends FireBall {
   constructor(x: number, y: number, dmg: number, target: Mob) {
     super(x, y, dmg, target);
-    this.dmg = 1;
     this.ballElement.src = frstbl;
   }
   onHit() {

@@ -46,8 +46,8 @@ export const mapConfigs: MapConfig[] = [
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
       { time: 1, mob: MobType.Goblin, road: 0 },
-      // { time: 3, mob: MobType.Orc, road: 0 },
-      // { time: 7, mob: MobType.Orc, road: 0 },
+      { time: 3, mob: MobType.Orc, road: 0 },
+      { time: 7, mob: MobType.Orc, road: 0 },
       ////
       { time: 17, mob: MobType.Goblin , road: 0},
       { time: 19, mob: MobType.Goblin, road: 0 },
@@ -60,7 +60,7 @@ export const mapConfigs: MapConfig[] = [
       { time: 35, mob: MobType.Orc, road: 0 },
       { time: 37, mob: MobType.Goblin, road: 0 },
       { time: 39, mob: MobType.Orc, road: 0 },
-      //
+      ////
       { time: 49, mob: MobType.Orc, road: 1  },
       { time: 51, mob: MobType.Orc, road: 1  },
       { time: 53, mob: MobType.Orc, road: 1  },

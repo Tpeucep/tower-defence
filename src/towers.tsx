@@ -7,6 +7,7 @@ import { Basement } from './basement';
 
 import ringSrc from "./assets/towers/ring.png";
 import towerImg from "./assets/towers/tower.png";
+import tower2 from "./assets/towers/Tower2.png";
 import upgrade from "./assets/towers/upgrade.png";
 import sell from "./assets/towers/sell.png";
 import upgradeLock from "./assets/towers/upgradeLocked.png";
@@ -26,7 +27,6 @@ export class Tower {
   menuUpgradeImg: HTMLImageElement;
   menuSell: HTMLImageElement;
   menuRing: HTMLImageElement;
-  tier2Tower! :Tower;
   damage = 3;
   upgradeCost = 110;
   sellCost = 30;
@@ -89,34 +89,35 @@ export class Tower {
 
   sell = () => {
     console.log('===sell')
-    gameState.gold += this.sellCost
-    this.reset()
-    const basement = new Basement(this.x, this.y)
-    this.closeMenu()
+    gameState.gold += this.sellCost;
+    this.reset();
+    const basement = new Basement(this.x, this.y);
+    this.closeMenu();
   }
 
-  upgrade =()=> {
+  upgrade =()=>  {
+    console.log('===upgrade))')
     if (gameState.gold >= this.upgradeCost) {
-      gameState.gold -= this.upgradeCost
-       this.reset()  /// удаление этой башни
-      this.tier2Tower = new Tower2(this.x, this.y)// зоздание башни следуйщего уровня
+      gameState.gold -= this.upgradeCost;
+      this.reset() ; /// удаление этой башни
+      const tier2Tower = new Tower2(this.x, this.y); // зоздание башни следуйщего уровня
     }
     this.closeMenu()
-  }
+  };
 
   onHover = () => {
-    this.handleHover()
+    this.handleHover();
   }
   handleHover() {
     this.img.style.filter = 'drop-shadow(yellow 0px 0px 4px)'
   }
 
   onLeave = () => {
-    this.handleLeave()
+    this.handleLeave();
   }
 
   handleLeave() {
-    this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)'
+    this.img.style.filter = 'drop-shadow(yellow 0px 0px 0px)';
   }
 
   openMenu = () => {
@@ -183,17 +184,20 @@ export class Tower {
   }
 }
 
-class Tower2 extends Tower {
+export class Tower2 extends Tower {
   constructor(x: number, y: number) {
     super(x, y);
     this.radius = 100;
     this.sellCost = 60;
     this.damage = 5;
-    this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src =upgradeLock;
+    this.img.src = tower2;
+    // this.menuUpgrade.innerHTML ='';
+    this.menuUpgradeImg.src = upgradeLock;
   }
-  upgrade = () =>{
+  upgrade = () => {
     this.closeMenu()
+    console.log('===pizdec((')
+    return;
   }
 }
 export class FreezeTower extends Tower {
@@ -211,11 +215,11 @@ export class FreezeTower extends Tower {
     this.render();
   }
 
-  upgrade =() => {
+  upgrade = () => {
     if (gameState.gold >= this.upgradeCost) {
       gameState.gold -= this.upgradeCost
-       this.reset()  /// удаление этой башни
-       this.tier2Tower = new FreezeTower2(this.x, this.y)
+      this.reset()  /// удаление этой башни
+      const tier2Tower = new FreezeTower2(this.x, this.y)
     }
     this.closeMenu()
   }
@@ -258,20 +262,21 @@ export class FreezeTower extends Tower {
   };
 }
 
-class FreezeTower2 extends FreezeTower {
+export class FreezeTower2 extends FreezeTower {
   constructor(x: number, y: number) {
     super(x, y);
-    this.damage = 7;
+    this.damage = 4;
     this.radius = 110;
     this.frezeLevel = 2;
-    this.attackSpeed = 800;
+    this.attackSpeed = 400;
     this.sellCost = 80;
     this.img.src = freeze2;
-    this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src =upgradeLock;
+    // this.menuUpgrade.innerHTML ='';
+    this.menuUpgradeImg.src = upgradeLock;
   }
-  upgrade= () =>{
+  upgrade = () => {
     this.closeMenu()
+    return;
   }
 }
 
@@ -282,9 +287,9 @@ export class BombTower extends Tower {
     this.x;
     this.y;
     this.upgradeCost = 220;
-    this.menuUpgrade.innerHTML =this.upgradeCost.toString();
+    this.menuUpgrade.innerHTML = this.upgradeCost.toString();
     this.menuUpgrade.appendChild(this.menuUpgradeImg);
-    this.sellCost =185;
+    this.sellCost = 185;
     this.attackSpeed = 2500
     this.damage = 8
     this.radius = 100;
@@ -299,11 +304,11 @@ export class BombTower extends Tower {
     this.render();
   }
 
-  upgrade =() => {
+  upgrade = () => {
     if (gameState.gold >= this.upgradeCost) {
       gameState.gold -= this.upgradeCost
-       this.reset()  /// удаление этой башни
-       this.tier2Tower = new BombTower2(this.x, this.y)
+      this.reset()  /// удаление этой башни
+      const tier2Tower = new BombTower2(this.x, this.y)
     }
     this.closeMenu()
   }
@@ -346,11 +351,12 @@ class BombTower2 extends BombTower {
     this.radius = 115;
     this.img.src = bomb2;
     this.sellCost = 130;
-    this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src =upgradeLock;
+    this.menuUpgrade.innerHTML = '';
+    this.menuUpgradeImg.src = upgradeLock;
   }
-  upgrade= () =>{
-    this.closeMenu()
+  upgrade = () => {
+    this.closeMenu();
+    return;
   }
 }
 
@@ -386,7 +392,7 @@ export class BarakTower extends Tower {
 
     this.markerSign = document.createElement('img');
     this.markerSign.src = flag;
-    this.markerSign.className ='menu';
+    this.markerSign.className = 'menu';
     this.markerSign.style.left = 67 + 'px'
     this.markerSign.style.top = 50 + 'px'
     this.menu.appendChild(this.markerSign);
@@ -504,13 +510,13 @@ export class BarakTower extends Tower {
   }
   update = () => { }; // ----------НЕ----ТРОГАТЬ----------
 
-  upgrade=()=> {
+  upgrade = () => {
     if (gameState.gold >= this.upgradeCost) {
       gameState.gold -= this.upgradeCost
-       this.reset()  /// удаление этой башни
-       this.tier2Tower = new BarakTower2(this.x, this.y)
-      }
-      this.closeMenu()
+      this.reset()  /// удаление этой башни
+      const tier2Tower = new BarakTower2(this.x, this.y)
+    }
+    this.closeMenu()
   }
 
   handleHover() {
@@ -570,18 +576,19 @@ export class BarakTower extends Tower {
   }
 }
 
-class BarakTower2 extends BarakTower{
+class BarakTower2 extends BarakTower {
   constructor(x: number, y: number) {
     super(x, y);
     // this.damage = 10;
     this.radius = 115;
     this.img.src = barak2;
     this.sellCost = 70;
-    this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src =upgradeLock;
+    this.menuUpgrade.innerHTML = '';
+    this.menuUpgradeImg.src = upgradeLock;
   }
-  upgrade= () =>{
-    this.closeMenu()
+  upgrade = () => {
+    this.closeMenu();
+    return;
   }
 
   public createGuardsAtPoint = (closestPoint: Point) => {
@@ -606,4 +613,5 @@ class BarakTower2 extends BarakTower{
       // guard.moveTo(closestPoint.x, closestPoint.y);
     }
   };
+
 }
