@@ -60,11 +60,11 @@ export const mapConfigs: MapConfig[] = [
       { time: 33, mob: MobType.Goblin, road: 0 },
       { time: 35, mob: MobType.Orc, road: 0 },
       //
-      { time: 39, mob: MobType.Orc, road: 0  },
-      { time: 41, mob: MobType.Orc, road: 0  },
-      { time: 43, mob: MobType.Orc, road: 0  },
-      { time: 45, mob: MobType.Orc, road: 0  },
-      { time: 47, mob: MobType.Orc, road: 0  },
+      { time: 39, mob: MobType.Orc, road: 1  },
+      { time: 41, mob: MobType.Orc, road: 1  },
+      { time: 43, mob: MobType.Orc, road: 1  },
+      { time: 45, mob: MobType.Orc, road: 1  },
+      { time: 47, mob: MobType.Orc, road: 1  },
     ],
   },
   {
@@ -109,26 +109,25 @@ export const mapConfigs: MapConfig[] = [
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
       { time: 1, mob: MobType.Goblin, road: 1 },
-      // { time: 3, mob: MobType.Goblin },
       ////
       { time: 7, mob: MobType.Goblin, road: 1 },
-      // { time: 8, mob: MobType.Goblin },
-      // { time: 9, mob: MobType.Goblin },
-      // { time: 10, mob: MobType.Goblin },
-      // ////
+      { time: 8, mob: MobType.Goblin, road: 1 },
+      { time: 9, mob: MobType.Goblin, road: 1 },
+      { time: 10, mob: MobType.Goblin, road: 1 },
+      ////
       { time: 13, mob: MobType.Goblin, road: 1 },
-      // { time: 15, mob: MobType.Goblin },
-      // { time: 17, mob: MobType.Goblin },
-      // { time: 19, mob: MobType.Goblin },
-      // { time: 21, mob: MobType.Goblin },
-      // { time: 22, mob: MobType.Goblin },
-      // { time: 23, mob: MobType.Goblin },
-      // ////
-      // { time: 28, mob: MobType.Goblin },
-      // { time: 30, mob: MobType.Goblin },
-      // { time: 32, mob: MobType.Goblin },
-      // { time: 34, mob: MobType.Goblin },
-      // ////
+      { time: 15, mob: MobType.Goblin, road: 0 },
+      { time: 17, mob: MobType.Goblin, road: 1 },
+      { time: 19, mob: MobType.Goblin, road: 0 },
+      { time: 21, mob: MobType.Goblin, road: 1 },
+      { time: 22, mob: MobType.Goblin, road: 0 },
+      { time: 23, mob: MobType.Goblin, road: 1 },
+      ////
+      { time: 28, mob: MobType.Goblin, road: 0 },
+      { time: 30, mob: MobType.Goblin, road: 0 },
+      { time: 32, mob: MobType.Goblin, road: 0 },
+      { time: 34, mob: MobType.Goblin, road: 0 },
+      ////
       // { time: 38, mob: MobType.Goblin },
       // { time: 39, mob: MobType.Goblin },
       // { time: 40, mob: MobType.Goblin },
@@ -247,12 +246,11 @@ export class GameState {
 
   public createMap = (index: number) => {
     this.resetMap();
+    this.gameTime = 0;
     this.mapFailed = false;
     this.mapFinished = false;
     this.gameMap = new Map(mapConfigs[index]);
     this.gameRunning = true;
-    this.gameTime = 0;
-    console.log(gameState.gameTime)
   };
 
   public finishMap = () => {
