@@ -44,27 +44,27 @@ export const mapConfigs: MapConfig[] = [
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
-      { time: 1, mob: MobType.Wolf, road: 0 },
-      // { time: 3, mob: MobType.Goblin },
-      { time: 3, mob: MobType.Goblin, road: 0 },
+      { time: 1, mob: MobType.Goblin, road: 0 },
+      { time: 3, mob: MobType.Orc, road: 0 },
       { time: 7, mob: MobType.Orc, road: 0 },
       ////
-      // { time: 13, mob: MobType.Goblin },
-      // { time: 15, mob: MobType.Goblin },
-      // { time: 17, mob: MobType.Orc },
-      // { time: 19, mob: MobType.Goblin },
-      // ////
-      // { time: 25, mob: MobType.Goblin },
-      // { time: 27, mob: MobType.Orc },
-      // { time: 29, mob: MobType.Goblin },
-      // { time: 31, mob: MobType.Orc },
-      // { time: 33, mob: MobType.Goblin },
-      // { time: 35, mob: MobType.Orc },
-      // //
-      // { time: 39, mob: MobType.Goblin },
-      // { time: 41, mob: MobType.Orc },
-      // { time: 43, mob: MobType.Goblin },
-      // { time: 4300, mob: MobType.Goblin, road:0 },
+      { time: 13, mob: MobType.Goblin , road: 0},
+      { time: 15, mob: MobType.Goblin, road: 0 },
+      { time: 17, mob: MobType.Orc, road: 0},
+      { time: 19, mob: MobType.Goblin, road: 0 },
+      ////
+      { time: 25, mob: MobType.Goblin, road: 0 },
+      { time: 27, mob: MobType.Orc, road: 0 },
+      { time: 29, mob: MobType.Goblin, road: 0 },
+      { time: 31, mob: MobType.Orc, road: 0 },
+      { time: 33, mob: MobType.Goblin, road: 0 },
+      { time: 35, mob: MobType.Orc, road: 0 },
+      //
+      { time: 39, mob: MobType.Orc, road: 0  },
+      { time: 41, mob: MobType.Orc, road: 0  },
+      { time: 43, mob: MobType.Orc, road: 0  },
+      { time: 45, mob: MobType.Orc, road: 0  },
+      { time: 47, mob: MobType.Orc, road: 0  },
     ],
   },
   {
@@ -105,7 +105,6 @@ export const mapConfigs: MapConfig[] = [
       { x: 475, y: 385, type: TowerType.Base },
       { x: 210, y: 285, type: TowerType.Base },
       { x: 70, y: 355, type: TowerType.Base },
-      // { x: 370, y: 405, type: TowerType.Fire },
     ],
     spells: [SpellType.Rain, SpellType.Guards],
     vawes: [
@@ -248,11 +247,12 @@ export class GameState {
 
   public createMap = (index: number) => {
     this.resetMap();
-    this.gameTime = 0;
     this.mapFailed = false;
     this.mapFinished = false;
     this.gameMap = new Map(mapConfigs[index]);
     this.gameRunning = true;
+    this.gameTime = 0;
+    console.log(gameState.gameTime)
   };
 
   public finishMap = () => {

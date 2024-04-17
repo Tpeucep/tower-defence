@@ -6,7 +6,7 @@ import { Guard, Guard2 } from './guards etc';
 import { Basement } from './basement';
 
 import ringSrc from "./assets/towers/ring.png";
-import towerImg from "./assets/towers/ring.png";
+import towerImg from "./assets/towers/tower.png";
 import upgrade from "./assets/towers/upgrade.png";
 import sell from "./assets/towers/sell.png";
 import upgradeLock from "./assets/towers/upgradeLocked.png";
