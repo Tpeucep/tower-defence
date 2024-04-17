@@ -88,6 +88,8 @@ export const Spells = observer(() => {
     globalMap.createMap()
   };
 
+  React.useCallback
+
   if (!gameState.gameMap) return null;
   return (
     <div>

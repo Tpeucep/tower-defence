@@ -75,7 +75,7 @@ export const mapConfigs: MapConfig[] = [
     roads: [
       {
         points: [
-          { x: 300, y: 625 },
+          { x: 300, y: 600 },
           { x: 310, y: 475 },
           { x: 350, y: 455 },
           { x: 490, y: 445 },
@@ -88,7 +88,7 @@ export const mapConfigs: MapConfig[] = [
         ]
       },
       { points:[
-        { x: 300, y: 625 },
+        { x: 300, y: 600 },
         { x: 300, y: 455 },
         { x: 120, y: 285 },
         { x: 120, y: 225 },
