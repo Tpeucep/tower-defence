@@ -14,7 +14,7 @@ import styled from 'styled-components';
 const RainSC = styled.button`
 background: white;
 border-radius: 3px;
-border: 2px solid ;
+border: 2px solid;
 color: '#BF4F74';
 padding: 0.25em 1em;
 `
@@ -31,10 +31,10 @@ export const Spells = observer(() => {
       const canCast = Date.now() - gameState.lastRainAt > 20000;
       if (canCast) {
         document.body.style.cursor = 'none';
-          const f = new Rotate(fireCursor, 105, 65)
+          const f = new Rotate(fireCursor, 105, 65);
         fireCursorRef.current = f;
-        console.log('set fire', f)
-        document.body.addEventListener('mousemove', f.updateFrblCrds)
+        console.log('set fire', f);
+        document.body.addEventListener('mousemove', f.updateFrblCrds);
         window.setTimeout(() => {
           document.body.addEventListener('click', createFireRain);
         }, 200);
@@ -48,8 +48,8 @@ export const Spells = observer(() => {
       const canCast = Date.now() - gameState.lastGuardAt > 10000;
       if (canCast) {
         document.body.style.cursor = 'crosshair';
-        document.body.appendChild(guardDemo)
-        document.body.addEventListener('mousemove', updateGrdCrds)
+        document.body.appendChild(guardDemo);
+        document.body.addEventListener('mousemove', updateGrdCrds);
         window.setTimeout(() => {
           document.body.addEventListener('click', createGuards);
         }, 200);
@@ -98,21 +98,21 @@ export const Spells = observer(() => {
   
   const continueGame = () => {
     gameState.gameRunning = true;
-    document.body.removeEventListener('click', continueGame)
+    document.body.removeEventListener('click', continueGame);
   }
   
   const map = () => {
-    globalMap.createMap()
+    globalMap.createMap();
   };
 
-  React.useCallback
+  React.useCallback;
 
   if (!gameState.gameMap) return null;
   return (
     <div>
       <div className="buttonDiv">
         <RainSC onClick={createFireCursor}> RAIN</RainSC>
-        <button onClick={createGuardCursor}> GUARDS </button>
+        <RainSC onClick={createGuardCursor}> GUARDS </RainSC>
         <button onClick={map}>map</button>
         <button onClick={pause}>pause</button>
         {/* <button onClick={() => gameState.createMap(0)}> MAP1 </button> */}

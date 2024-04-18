@@ -196,6 +196,8 @@ export class GameState {
   public mapConfig: MapConfig | undefined;
   @observable
   public gameMap: Map | undefined;
+@observable
+  public tower4Menu: Tower | undefined;
 
   public monsters: Mob[] = [];
   public fireBalls: IFireball[] = [];
@@ -248,6 +250,14 @@ export class GameState {
     this.gameTime = 0;
     this.gold = 0;
   };
+
+  public setTower=(t: Tower)=>{
+    if(!this.tower4Menu)this.tower4Menu = t;
+  }
+
+  public deleteTower=()=>{
+    if(this.tower4Menu)this.tower4Menu = undefined
+  }
 
   public createMap = (index: number) => {
     this.resetMap();

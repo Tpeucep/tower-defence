@@ -271,7 +271,6 @@ body {
 }
 .menuUpgrdImg{
   position: absolute;
-  filter: grayscale(1);
   top: -27px;
   left: -10px;
   z-index: -1;

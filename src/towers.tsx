@@ -18,6 +18,7 @@ import freeze from "./assets/towers/freeze.png";
 import freeze2 from "./assets/towers/freeze2.png";
 import barak1 from "./assets/towers/barak.png";
 import barak2 from "./assets/towers/barak2.png";
+import { Menu } from './towerMenu';
 
 export class Tower {
   towerElement: HTMLDivElement;
@@ -53,7 +54,6 @@ export class Tower {
     this.menu.style.left = 7 + "px";
 
     this.menuUpgrade = document.createElement('div');
-    // this.menuUpgrade.className ='menuUpgrade';
     this.menuUpgrade.innerHTML = this.upgradeCost.toString();
     this.menu.appendChild(this.menuUpgrade);
     this.menuUpgrade.className = 'menuUpgrd';
@@ -81,15 +81,15 @@ export class Tower {
     document.body.appendChild(this.towerElement);
     this.towerElement.appendChild(this.img);
     this.render();
-    this.menuUpgradeImg.addEventListener('click', this.upgrade)
+    this.menuUpgradeImg.addEventListener('click', this.upgrade);
     this.img.addEventListener('mouseover', this.onHover);
     this.img.addEventListener('mouseleave', this.onLeave);
     this.img.addEventListener('click', this.openMenu);
   }
   
   upgrade =()=>  {
-    console.log('===upgrade))' , this)
     if (gameState.gold >= this.upgradeCost) {
+      console.log('===upgrade))' , this)
       gameState.gold -= this.upgradeCost;
       this.reset() ; /// удаление этой башни
       const tier2Tower = new Tower2(this.x, this.y); // зоздание башни следуйщего уровня
@@ -104,6 +104,7 @@ export class Tower {
     const basement = new Basement(this.x, this.y);
     this.closeMenu();
   }
+
 
   onHover = () => {
     this.handleHover();
@@ -121,10 +122,10 @@ export class Tower {
   }
 
   openMenu = () => {
-    // if(!gameState.gameRunning) return;
     console.log('open');
     this.img.removeEventListener('click', this.openMenu);
-    this.towerElement.appendChild(this.menu);
+    gameState.setTower(this)
+    // this.towerElement.appendChild(this.menu);
     window.setTimeout(() => {
       document.body.addEventListener('click', this.closeMenu);
     }, 100);
@@ -132,8 +133,9 @@ export class Tower {
 
   closeMenu = () => {
     console.log('close');
-    this.menu.remove();
+    // this.menu.remove();
     document.body.removeEventListener('click', this.closeMenu);
+    gameState.deleteTower();
     window.setTimeout(() => {
       this.img.addEventListener('click', this.openMenu);
     }, 100);
