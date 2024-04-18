@@ -10,17 +10,13 @@ import demo from "./assets/spells/demo.png";
 import fireCursor from "./assets/spells/fireCursor.png";
 
 import styled from 'styled-components';
-import css from 'styled-components';
 
 const RainSC = styled.button`
-background: transparent;
+background: white;
 border-radius: 3px;
-border: 2px solid #BF4F74;
+border: 2px solid ;
 color: '#BF4F74';
-margin: 0 1em;
 padding: 0.25em 1em;
-
-
 `
 const guardDemo = document.createElement('img')
 guardDemo.className = 'demo'
@@ -115,7 +111,7 @@ export const Spells = observer(() => {
   return (
     <div>
       <div className="buttonDiv">
-        <RainSC onClick={createFireCursor} $primary> RAIN</RainSC>
+        <RainSC onClick={createFireCursor}> RAIN</RainSC>
         <button onClick={createGuardCursor}> GUARDS </button>
         <button onClick={map}>map</button>
         <button onClick={pause}>pause</button>

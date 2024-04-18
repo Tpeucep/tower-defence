@@ -4,7 +4,7 @@ import { Map } from './Map';
 import { Basement } from './basement';
 import { Mob, Orc, Wolf } from './mob';
 import { Movable } from './movable';
-import { Tower } from './towers';
+import { Tower } from './towers/towers';
 import { IFireball, MapConfig, MobType, SpellType, TowerType } from './types';
 import { GlobalMap } from './globalMap';
 

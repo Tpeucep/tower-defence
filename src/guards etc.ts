@@ -2,7 +2,7 @@ import { HpBar } from './hpBar';
 import { Mob } from './mob';
 import { Movable } from './movable';
 import { gameState } from './state';
-import { BarakTower } from './towers';
+import { BarakTower } from './towers/towers';
 import { Point } from './types';
 
 import guardMove from "./assets/guards/guardsMove.png";
