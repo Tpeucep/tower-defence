@@ -1,9 +1,9 @@
-import { getDistance, mouseY, mouseX } from '../App';
-import { gameState } from '../state';
-import { Bomb, FireBall, FrostBall } from '../fireballs';
-import { Point } from '../types';
-import { Guard, Guard2 } from '../guards etc';
-import { Basement } from '../basement';
+import { getDistance, mouseY, mouseX } from './App';
+import { gameState } from './state';
+import { Bomb, FireBall, FrostBall } from './fireballs';
+import { Point } from './types';
+import { Guard, Guard2 } from './guards etc';
+import { Basement } from './basement';
 
 import ringSrc from "./assets/towers/ring.png";
 import towerImg from "./assets/towers/tower.png";

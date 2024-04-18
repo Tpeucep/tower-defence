@@ -1,6 +1,6 @@
 import { Basement } from './basement';
 import { gameState } from './state';
-import { BarakTower, BombTower, FreezeTower, Tower } from './towers/towers';
+import { BarakTower, BombTower, FreezeTower, Tower } from './towers';
 import { MapConfig, TowerType } from './types';
 
 export class Map {

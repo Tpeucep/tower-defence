@@ -1,4 +1,4 @@
-import { BarakTower, BombTower, FreezeTower, FreezeTower2, Tower, Tower2 } from './towers/towers';
+import { BarakTower, BombTower, FreezeTower, FreezeTower2, Tower, Tower2 } from './towers';
 import { gameState } from './state';
 
 import basementSrc from "./assets/basement/basement.png";
