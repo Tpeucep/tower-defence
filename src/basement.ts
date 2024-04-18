@@ -34,10 +34,8 @@ export class Basement {
   onClick = () => {
     if(!gameState.gameRunning) return;
     this.open = true;
-    // if (this.open > 1) {
-    if (!this.open) {
-      return;
-    }
+
+    this.basementEl.removeEventListener('click', this.onClick);
     
     this.freezeEl = document.createElement('img');
     this.freezeEl.className = 'snow';
@@ -97,6 +95,7 @@ export class Basement {
     this.fireEL.remove();
     this.barakEl.remove();
     this.BombEl.remove();
+    this.basementEl.addEventListener('click', this.onClick);
   }
 
   createFireTower = () => {

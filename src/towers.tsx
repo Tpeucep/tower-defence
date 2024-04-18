@@ -123,8 +123,8 @@ export class Tower {
   openMenu = () => {
     // if(!gameState.gameRunning) return;
     console.log('open');
-    this.towerElement.appendChild(this.menu);
     this.img.removeEventListener('click', this.openMenu);
+    this.towerElement.appendChild(this.menu);
     window.setTimeout(() => {
       document.body.addEventListener('click', this.closeMenu);
     }, 100);
