@@ -5,12 +5,8 @@ import { Point } from './types';
 import { Guard, Guard2 } from './guards etc';
 import { Basement } from './basement';
 
-import ringSrc from "./assets/towers/ring.png";
 import towerImg from "./assets/towers/tower.png";
 import tower2 from "./assets/towers/Tower2.png";
-import upgrade from "./assets/towers/upgrade.png";
-import sell from "./assets/towers/sell.png";
-import upgradeLock from "./assets/towers/upgradeLocked.png";
 import flag from "./assets/towers/flag.png";
 import bomb from "./assets/towers/bomb1.png";
 import bomb2 from "./assets/towers/bomb2.png";
@@ -18,16 +14,11 @@ import freeze from "./assets/towers/freeze.png";
 import freeze2 from "./assets/towers/freeze2.png";
 import barak1 from "./assets/towers/barak.png";
 import barak2 from "./assets/towers/barak2.png";
-import { Menu } from './towerMenu';
 
 export class Tower {
   towerElement: HTMLDivElement;
   bulletElement!: HTMLImageElement;
-  menu: HTMLDivElement;
-  menuUpgrade: HTMLDivElement;
-  menuUpgradeImg: HTMLImageElement;
-  menuSell: HTMLImageElement;
-  menuRing: HTMLImageElement;
+
   damage = 3;
   upgradeCost = 110;
   sellCost = 30;
@@ -39,55 +30,32 @@ export class Tower {
   lastShotAt: number = 0;
   attackSpeed = 700;
 
+  canBeUpgraded = true;
+  hasFlag = false;
+
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
     this.towerElement = document.createElement('div');
+    this.towerElement.className = 'tower';;
     this.img = document.createElement('img');
-    this.towerElement.className = 'tower';
     this.img.src = towerImg;
     this.img.draggable = false;
     console.log(towerImg)
-
-    this.menu = document.createElement('div');
-    this.menu.className = 'menu';
-    this.menu.style.left = 7 + "px";
-
-    this.menuUpgrade = document.createElement('div');
-    this.menuUpgrade.innerHTML = this.upgradeCost.toString();
-    this.menu.appendChild(this.menuUpgrade);
-    this.menuUpgrade.className = 'menuUpgrd';
-    this.menuUpgradeImg = document.createElement('img');
-    this.menuUpgradeImg.src = upgrade;
-    this.menuUpgradeImg.className = 'menuUpgrdImg';
-    if (gameState.gold < this.upgradeCost) this.menuUpgradeImg.style.filter = 'grayscale(1)';
-    this.menuUpgrade.appendChild(this.menuUpgradeImg);
-
-
-    this.menuRing = document.createElement('img');
-    // this.menuRing.src ='https://i.ibb.co/94Wtbt4/2024-04-03-0sw-Kleki.png';
-    this.menuRing.src = ringSrc;
-    this.menuRing.className = 'menuRing'
-
-    this.menuSell = document.createElement('img');
-    this.menuSell.src = sell;
-    this.menuSell.addEventListener('click', this.sell);
-    this.menuSell.className = 'menuSell';
-    this.menuSell.style.top = 80 + 'px'
-    this.menu.appendChild(this.menuSell);
-
-    this.menu.appendChild(this.menuRing);
-
     document.body.appendChild(this.towerElement);
     this.towerElement.appendChild(this.img);
+
     this.render();
-    this.menuUpgradeImg.addEventListener('click', this.upgrade);
     this.img.addEventListener('mouseover', this.onHover);
     this.img.addEventListener('mouseleave', this.onLeave);
     this.img.addEventListener('click', this.openMenu);
   }
   
   upgrade =()=>  {
+    if(!this.canBeUpgraded){
+      console.log('ЕЕЕЕЕЕЕЕЕЕ ЗАРАБОТАЛО');
+      return;
+    }; 
     if (gameState.gold >= this.upgradeCost) {
       console.log('===upgrade))' , this)
       gameState.gold -= this.upgradeCost;
@@ -125,7 +93,6 @@ export class Tower {
     console.log('open');
     this.img.removeEventListener('click', this.openMenu);
     gameState.setTower(this)
-    // this.towerElement.appendChild(this.menu);
     window.setTimeout(() => {
       document.body.addEventListener('click', this.closeMenu);
     }, 100);
@@ -133,7 +100,6 @@ export class Tower {
 
   closeMenu = () => {
     console.log('close');
-    // this.menu.remove();
     document.body.removeEventListener('click', this.closeMenu);
     gameState.deleteTower();
     window.setTimeout(() => {
@@ -173,6 +139,9 @@ export class Tower {
     );
     // console.log(distanceToMouse);
   };
+
+  openRadius = () =>{}
+
   reset() {
     const index = gameState.towers.indexOf(this);
     if (index !== -1) {
@@ -182,33 +151,27 @@ export class Tower {
   }
   render() {
     this.towerElement.style.left = this.x + 'px';
-    this.towerElement.style.top = this.y + 'px';
+    this.towerElement.style.top = this.y -15 + 'px';
   }
 }
 
 export class Tower2 extends Tower {
   constructor(x: number, y: number) {
     super(x, y);
+    this.upgradeCost = 999;
     this.radius = 100;
     this.sellCost = 60;
     this.damage = 5;
     this.img.src = tower2;
+    this.canBeUpgraded = false;
     // this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src = upgradeLock;
-    this.menuUpgradeImg.addEventListener('click', this.closeMenu)
-  }
-  upgrade = () => {
-    this.closeMenu();
-    console.log('===DONT UPRGADE!!', this);
-    return;
+
   }
 }
 export class FreezeTower extends Tower {
   frezeLevel = 3
   constructor(x: number, y: number) {
     super(x, y);
-    this.menu.style.left = 0 + 'px'
-    this.menu.style.top = -2 + 'px'
     this.x;
     this.y;
     this.damage = 5;
@@ -270,17 +233,14 @@ export class FreezeTower2 extends FreezeTower {
     super(x, y);
     this.damage = 4;
     this.radius = 110;
+    this.upgradeCost = 999;
     this.frezeLevel = 2;
     this.attackSpeed = 400;
     this.sellCost = 80;
+    this.canBeUpgraded = false;
     this.img.src = freeze2;
     // this.menuUpgrade.innerHTML ='';
-    this.menuUpgradeImg.src = upgradeLock;
-    this.menuUpgradeImg.addEventListener('click', this.closeMenu)
-  }
-  upgrade = () => {
-    this.closeMenu()
-    return;
+
   }
 }
 
@@ -291,16 +251,14 @@ export class BombTower extends Tower {
     this.x;
     this.y;
     this.upgradeCost = 220;
-    this.menuUpgrade.innerHTML = this.upgradeCost.toString();
-    this.menuUpgrade.appendChild(this.menuUpgradeImg);
+
     this.sellCost = 185;
     this.attackSpeed = 2500
     this.damage = 8
     this.radius = 100;
     this.img.src = bomb;
     this.audio = new Audio();
-    this.menu.style.top = -13 + 'px'
-    this.menu.style.left = 2 + 'px'
+
     // this.audio.muted = true
     this.audio.src =
       'https://audio.buzzsprout.com/a09dv2jfild2q9szwny8ymo0b3g9?response-content-disposition=inline&';
@@ -353,10 +311,11 @@ class BombTower2 extends BombTower {
     super(x, y);
     this.damage = 14;
     this.radius = 115;
+    this.upgradeCost = 999;
     this.img.src = bomb2;
     this.sellCost = 130;
-    this.menuUpgrade.innerHTML = '';
-    this.menuUpgradeImg.src = upgradeLock;
+    this.canBeUpgraded = false;
+
   }
   upgrade = () => {
     this.closeMenu();
@@ -377,6 +336,7 @@ export class BarakTower extends Tower {
     super(x, y);
     this.x;
     this.y;
+    this.hasFlag = true;
     this.rallyPoint = { x: x, y: y };
     this.radius = 100;
     this.img.src = barak1;
@@ -390,8 +350,7 @@ export class BarakTower extends Tower {
     this.towerRadius.style.border = 'solid aqua';
     this.towerRadius.className = 'radius';
 
-    this.menu.style.top = -10 + 'px';
-    this.menu.style.left = 0 + 'px';
+
 
 
     this.markerSign = document.createElement('img');
@@ -399,7 +358,7 @@ export class BarakTower extends Tower {
     this.markerSign.className = 'menu';
     this.markerSign.style.left = 67 + 'px'
     this.markerSign.style.top = 50 + 'px'
-    this.menu.appendChild(this.markerSign);
+
 
     this.mobRadiusPoint = document.createElement('div');
     this.mobRadiusPoint.className = 'point';
@@ -576,19 +535,19 @@ export class BarakTower extends Tower {
 
   render() {
     this.towerElement.style.left = this.x + 'px';
-    this.towerElement.style.top = this.y + 'px';
+    this.towerElement.style.top = this.y -15 + 'px';
   }
 }
 
 class BarakTower2 extends BarakTower {
   constructor(x: number, y: number) {
     super(x, y);
-    // this.damage = 10;
+    this.upgradeCost = 999;
     this.radius = 115;
     this.img.src = barak2;
     this.sellCost = 70;
-    this.menuUpgrade.innerHTML = '';
-    this.menuUpgradeImg.src = upgradeLock;
+    this.hasFlag = true;
+    this.canBeUpgraded = false;
   }
   upgrade = () => {
     this.closeMenu();

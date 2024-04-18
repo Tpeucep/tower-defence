@@ -253,10 +253,12 @@ export class GameState {
 
   public setTower=(t: Tower)=>{
     if(!this.tower4Menu)this.tower4Menu = t;
+    console.log(t);
   }
 
   public deleteTower=()=>{
-    if(this.tower4Menu)this.tower4Menu = undefined
+    if(this.tower4Menu)this.tower4Menu = undefined;
+    console.log(this.tower4Menu);
   }
 
   public createMap = (index: number) => {

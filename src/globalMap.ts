@@ -99,6 +99,7 @@ class Flag {
     this.img = document.createElement('img');
     this.img.src = flag;
     this.img.className = 'demo';
+    this.img.draggable = false;
     document.body.appendChild(this.img);
 
     this.img.style.left = x + 'px';
